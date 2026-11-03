@@ -4,11 +4,11 @@
   "version": "0.1.0+20261103",
   "repository": {
     "type": "git",
-    "url": "https://github.com/VincentZyu233/koishi-plugin-otto-hzys.git"
+    "url": "https://github.com/VincentZyuApps/koishi-plugin-otto-hzys.git"
   },
-  "homepage": "https://github.com/VincentZyu233/koishi-plugin-otto-hzys#readme",
+  "homepage": "https://github.com/VincentZyuApps/koishi-plugin-otto-hzys#readme",
   "bugs": {
-    "url": "https://github.com/VincentZyu233/koishi-plugin-otto-hzys/issues"
+    "url": "https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/issues"
   },
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",

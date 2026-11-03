@@ -18,7 +18,7 @@ export const Config: Schema<Config> = Schema.object({
     .default(true)
     .description('插件启动时是否自动检测并在后台下载默认语音包'),
   downloadMirror: Schema.string()
-    .default('https://github.com/VincentZyu233/koishi-plugin-otto-hzys/releases/download/v0.1.0')
+    .default('https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0')
     .description('在线语音包下载基础地址（无需包含文件名，末尾不要加斜杠）'),
   defaultNorm: Schema.boolean()
     .default(true)
