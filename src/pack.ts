@@ -36,9 +36,8 @@ export class VoicePackManager {
 
   /**
    * 自动预热与准备语音包：
-   * 1. 优先检测本地数据目录
-   * 2. 检查是否有本地开发仓库（免去下载）
-   * 3. 否则从网络下载并解压
+   * 1. 优先检测本地数据目录已就绪则跳过
+   * 2. 否则从配置的镜像地址（GitHub/Gitee 等）下载并解压
    */
   public async ensurePack(packName = 'otto', onProgress?: (msg: string) => void): Promise<void> {
     if (this.hasPack(packName)) return
@@ -46,26 +45,7 @@ export class VoicePackManager {
     const packDir = path.join(this.packsDir, packName)
     fs.mkdirSync(packDir, { recursive: true })
 
-    // 1. 本地免流模式：检测开发环境常见路径直接复制
-    const localFallbackPath = path.resolve(
-      this.ctx.baseDir,
-      '../../AAA_from_git_AAA/HUOZI_koi'
-    )
-    if (fs.existsSync(localFallbackPath) && fs.existsSync(path.join(localFallbackPath, 'sources'))) {
-      onProgress?.('检测到本地开发环境音频源，正在导入...')
-      this.logger.info(`Copying voice pack from local source: ${localFallbackPath}`)
-      this.copyDirSync(path.join(localFallbackPath, 'sources'), path.join(packDir, 'sources'))
-      if (fs.existsSync(path.join(localFallbackPath, 'ysddSources'))) {
-        this.copyDirSync(path.join(localFallbackPath, 'ysddSources'), path.join(packDir, 'ysddSources'))
-      }
-      const ysddTablePath = path.join(localFallbackPath, 'ysddTable.json')
-      if (fs.existsSync(ysddTablePath)) {
-        fs.copyFileSync(ysddTablePath, path.join(packDir, 'ysddTable.json'))
-      }
-      return
-    }
-
-    // 2. 在线自动下载解压
+    // 在线自动下载解压
     onProgress?.(`正在从镜像源下载 ${packName} 语音包，请稍候...`)
     this.logger.info(`Downloading voice pack [${packName}] from mirror...`)
 
@@ -151,17 +131,5 @@ export class VoicePackManager {
     return DEFAULT_YSDD
   }
 
-  private copyDirSync(src: string, dest: string) {
-    fs.mkdirSync(dest, { recursive: true })
-    const entries = fs.readdirSync(src, { withFileTypes: true })
-    for (const entry of entries) {
-      const srcPath = path.join(src, entry.name)
-      const destPath = path.join(dest, entry.name)
-      if (entry.isDirectory()) {
-        this.copyDirSync(srcPath, destPath)
-      } else {
-        fs.copyFileSync(srcPath, destPath)
-      }
-    }
-  }
+
 }
