@@ -36,8 +36,8 @@ export function registerCommands(ctx: Context, config: Config, packManager: Voic
   }
 
   // 子指令：查看本地已有的语音包名称与切片统计
-  cmd.subcommand('.pack', '📦 查看本地所有已安装的活字印刷语音包')
-    .alias('.packs', '.list')
+  cmd.subcommand('.packlist', '📦 查看本地所有已安装的活字印刷语音包')
+    .alias('.pack', '.packs', '.list')
     .action(async () => {
       const packs = packManager.listInstalledPacks()
       if (packs.length === 0) {
