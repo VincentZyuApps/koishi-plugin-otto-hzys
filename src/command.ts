@@ -36,9 +36,24 @@ export function registerCommands(ctx: Context, config: Config, packManager: Voic
   }
 
   // 子指令：查看本地已有的语音包名称与切片统计
-  cmd.subcommand('.packlist', '📦 查看本地所有已安装的活字印刷语音包')
-    .alias('.pack', '.packs', '.list')
-    .action(async () => {
+  const subCmd = cmd.subcommand('.packlist', '📦 查看本地所有已安装的活字印刷语音包')
+
+  const defaultSubAliases = ['.pack', '.packs', '.list']
+  const subAliasSet = new Set<string>()
+  for (const a of defaultSubAliases) {
+    subAliasSet.add(a)
+  }
+  if (Array.isArray(config.packListAliases)) {
+    for (const a of config.packListAliases) {
+      if (a && a !== '.packlist') subAliasSet.add(a)
+    }
+  }
+
+  for (const alias of subAliasSet) {
+    subCmd.alias(alias)
+  }
+
+  subCmd.action(async () => {
       const packs = packManager.listInstalledPacks()
       if (packs.length === 0) {
         return `📁 当前本地尚未下载任何语音包。\n💡 默认语音包为 [${config.defaultPack}]，首次调用合成指令时将自动下载。`

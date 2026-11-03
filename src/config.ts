@@ -4,6 +4,7 @@ export interface Config {
   // ===== 📌 指令与别名设置 =====
   commandName?: string // 📌 主指令名称（默认 hzys）
   commandAliases?: string[] // 🏷️ 指令别名列表（table）
+  packListAliases?: string[] // 📦 语音包列表子指令别名列表（table）
 
   // ===== 📦 语音包与下载设置 =====
   defaultPack: string // 🎙️ 默认使用的语音包名称（默认 otto）
@@ -27,6 +28,10 @@ export const Config: Schema<Config> = Schema.intersect([
       .role('table')
       .default(['otto', 'ottohzys', 'otto-hzys', '活字印刷', 'otto活字印刷', 'otto-活字印刷', '欧头活字印刷', '欧头-活字印刷'])
       .description('🏷️ 指令别名列表（在聊天中可通过任意别名触发）'),
+    packListAliases: Schema.array(Schema.string())
+      .role('table')
+      .default(['.pack', '.packs', '.list'])
+      .description('📦 语音包列表子指令别名列表（在主指令后跟随触发，如 /otto pack）'),
   }).description('📌 指令与别名设置 ⚙️'),
 
   // ===== 📦 语音包与下载设置 =====
