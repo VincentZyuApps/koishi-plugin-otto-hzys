@@ -1,6 +1,8 @@
 import { Schema } from 'koishi'
 
 export interface Config {
+  commandName?: string
+  commandAliases?: string[]
   defaultPack: string
   autoDownload: boolean
   downloadMirror: string
@@ -11,6 +13,12 @@ export interface Config {
 }
 
 export const Config: Schema<Config> = Schema.object({
+  commandName: Schema.string()
+    .default('hzys')
+    .description('主指令名称'),
+  commandAliases: Schema.array(Schema.string())
+    .default(['otto', 'ottohzys', 'otto-hzys', '活字印刷', 'otto活字印刷', 'otto-活字印刷', '欧头活字印刷', '欧头-活字印刷'])
+    .description('指令别名列表（如 otto、ottohzys、活字印刷 等）'),
   defaultPack: Schema.string()
     .default('otto')
     .description('默认使用的语音包名称'),

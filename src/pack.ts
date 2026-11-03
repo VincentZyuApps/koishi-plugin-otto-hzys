@@ -35,6 +35,36 @@ export class VoicePackManager {
   }
 
   /**
+   * 列出本地所有已安装的语音包信息
+   */
+  public listInstalledPacks(): { name: string; tokenCount: number; ysddCount: number }[] {
+    if (!fs.existsSync(this.packsDir)) return []
+    const entries = fs.readdirSync(this.packsDir, { withFileTypes: true })
+    const result: { name: string; tokenCount: number; ysddCount: number }[] = []
+
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        const packName = entry.name
+        const packDir = path.join(this.packsDir, packName)
+        const sourcesDir = fs.existsSync(path.join(packDir, 'sources'))
+          ? path.join(packDir, 'sources')
+          : (fs.existsSync(path.join(packDir, 'tokens')) ? path.join(packDir, 'tokens') : null)
+        const ysddDir = fs.existsSync(path.join(packDir, 'ysddSources'))
+          ? path.join(packDir, 'ysddSources')
+          : (fs.existsSync(path.join(packDir, 'ysdd_tokens')) ? path.join(packDir, 'ysdd_tokens') : null)
+
+        const tokenCount = sourcesDir && fs.existsSync(sourcesDir) ? fs.readdirSync(sourcesDir).filter(f => f.endsWith('.wav')).length : 0
+        const ysddCount = ysddDir && fs.existsSync(ysddDir) ? fs.readdirSync(ysddDir).filter(f => f.endsWith('.wav')).length : 0
+
+        if (tokenCount > 0 || ysddCount > 0) {
+          result.push({ name: packName, tokenCount, ysddCount })
+        }
+      }
+    }
+    return result
+  }
+
+  /**
    * 自动预热与准备语音包：
    * 1. 优先检测本地数据目录已就绪则跳过
    * 2. 否则从配置的镜像地址（GitHub/Gitee 等）下载并解压

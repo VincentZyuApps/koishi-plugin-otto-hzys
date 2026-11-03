@@ -6,9 +6,53 @@ import { tokenizeSentence } from './tokenizer'
 
 export function registerCommands(ctx: Context, config: Config, packManager: VoicePackManager) {
   const logger = ctx.logger('otto-hzys')
+  const primaryName = config.commandName || 'hzys'
 
-  ctx.command('hzys <content:text>', '使用电棍/活字印刷语音合成句子')
-    .alias('otto', '活字印刷', '说的道理')
+  const cmd = ctx.command(`${primaryName} <content:text>`, '使用电棍/活字印刷语音合成句子')
+
+  const aliasSet = new Set<string>()
+  const defaultAliases = [
+    'otto',
+    'ottohzys',
+    'otto-hzys',
+    '活字印刷',
+    'otto活字印刷',
+    'otto-活字印刷',
+    '欧头活字印刷',
+    '欧头-活字印刷',
+    'hzys',
+  ]
+  for (const a of defaultAliases) {
+    if (a !== primaryName) aliasSet.add(a)
+  }
+  if (Array.isArray(config.commandAliases)) {
+    for (const a of config.commandAliases) {
+      if (a && a !== primaryName) aliasSet.add(a)
+    }
+  }
+
+  for (const alias of aliasSet) {
+    cmd.alias(alias)
+  }
+
+  // 子指令：查看本地已有的语音包名称与切片统计
+  cmd.subcommand('.pack', '查看本地所有已安装的活字印刷语音包')
+    .alias('.packs', '.list')
+    .action(async () => {
+      const packs = packManager.listInstalledPacks()
+      if (packs.length === 0) {
+        return `📁 当前本地尚未下载任何语音包。\n💡 默认语音包为 [${config.defaultPack}]，首次调用合成指令时将自动下载。`
+      }
+      const lines = [
+        `🎙️ 本地已安装语音包列表（共 ${packs.length} 个）：`,
+        ...packs.map(p => `  • ${p.name === config.defaultPack ? `⭐ [${p.name}] (当前默认)` : `  [${p.name}]`}: ${p.tokenCount} 个拼音切片，${p.ysddCount} 个原声短语`),
+        `\n💡 使用方法：通过 -p 选项指定语音包合成，例如：/otto -p ${packs[0]?.name || 'otto'} 大家好啊`,
+        `📂 语音包存放目录：data/otto-hzys/packs/<语音包名>/`
+      ]
+      return lines.join('\n')
+    })
+
+  cmd
     .option('pack', '-p, --pack <name:string> 指定语音包名称', { fallback: config.defaultPack })
     .option('reverse', '-r, --reverse 倒放生成的音频', { fallback: false })
     .option('norm', '-n, --norm 统一音频音量 (归一化)', { fallback: config.defaultNorm })

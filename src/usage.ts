@@ -63,7 +63,8 @@ export const usage = `
 
 <div style="${codeBlockStyle}">
   <div><b>主指令：</b><code>hzys &lt;content:text&gt;</code></div>
-  <div style="margin-top: 4px;"><b>别名：</b><code>otto</code>、<code>活字印刷</code>、<code>说的道理</code></div>
+  <div style="margin-top: 4px;"><b>别名：</b><code>otto</code>、<code>ottohzys</code>、<code>otto-hzys</code>、<code>活字印刷</code>、<code>otto活字印刷</code>、<code>otto-活字印刷</code>、<code>欧头活字印刷</code>、<code>欧头-活字印刷</code></div>
+  <div style="margin-top: 4px;"><b>查看语音包：</b><code>hzys.pack</code>（别名 <code>.packs</code>、<code>.list</code>）</div>
 </div>
 
 <details style="${detailsStyle}">
