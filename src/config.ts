@@ -17,6 +17,7 @@ export const Config: Schema<Config> = Schema.object({
     .default('hzys')
     .description('主指令名称'),
   commandAliases: Schema.array(Schema.string())
+    .role('table')
     .default(['otto', 'ottohzys', 'otto-hzys', '活字印刷', 'otto活字印刷', 'otto-活字印刷', '欧头活字印刷', '欧头-活字印刷'])
     .description('指令别名列表（如 otto、ottohzys、活字印刷 等）'),
   defaultPack: Schema.string()
