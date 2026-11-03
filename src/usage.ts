@@ -4,6 +4,8 @@ const detailsStyle = 'margin:10px 0;border:1px solid var(--k-color-border, #9093
 const summaryStyle = 'padding:9px 12px;background:var(--k-hover-bg, rgba(127, 127, 127, .12));color:var(--k-text-dark, inherit);cursor:pointer;user-select:none'
 const detailsBodyStyle = 'padding:2px 14px 8px;border-top:1px solid var(--k-color-divider, rgba(127, 127, 127, .28));background:var(--k-card-bg, transparent);color:var(--k-text-dark, inherit)'
 
+const KOISHI_LOGO_BASE64 = 'data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABU0lEQVR42p2UQSsFYRSGnxnqLuytKWKpKFkQNsS%2FsOHPWPADLCmxU5S7UzYWNrJR7lYiRF2FeWzOMKZ7mXHqNNP5vvP2nu%2B850CY2lP4X1K31ZbaDm%2BpO%2Bpyp5wfAXVEPfRvO1JHf4AVQGbUh7j4EZ4VkrNCXPVRnf3CUBN1SH2KC28VGOV3ntRhNclZHdcAKYM11QR1oVBOXctzFlNgBTC8qmXxPQEegbVeYApIgJT6tg%2F0AdMp0B%2FBpCabK2AAmAAa%2F2GRBft1oBFPkqTAba7LCiAfQC9wClwAY1HJHepuiO29Yrsf1Dn1uiDU3RTYCtTkl1Leg8k9MB4NGgReI28rV3azgyCz0og01Xl1Uz1QX8uCTELm3UbkTF1VJ9Wr0tn3iBSGdjYG0XivE3VN3VD31PM4a3cc2tIGGI0VkTO7rLxGuiy25ejmjfqsvkSXui62TxaK03td4FXTAAAAAElFTkSuQmCC'
+
 export const usage = `
 <h1>Koishi 插件：Otto 活字印刷语音合成 otto-hzys</h1>
 <h2>🎯 插件版本：v${pkg.version}</h2>
@@ -22,10 +24,29 @@ export const usage = `
   <a href="https://gitee.com/vincent-zyu/koishi-plugin-otto-hzys" target="_blank">
     <img src="https://img.shields.io/badge/Gitee-C71D23?style=for-the-badge&logo=gitee&logoColor=white" alt="Gitee">
   </a>
-  <a href="https://qm.qq.com/q/rvrRosfKMw" target="_blank">
-    <img src="https://img.shields.io/badge/awa群_zyu建的qq群-1085190201-12B7F5?style=flat-square&logo=qq&logoColor=white" alt="awa群-zyu建的qq群">
+  <br>
+  <a href="https://forum.koishi.xyz/t/topic/xxxxx" target="_blank">
+    <img src="https://img.shields.io/badge/Koishi%20Forum-xxxxx-5546A3?style=for-the-badge&logo=${KOISHI_LOGO_BASE64}&logoColor=white" alt="Koishi Forum">
+  </a>
+  <a href="https://qm.qq.com/q/ZHj33L5cuC" target="_blank">
+    <img src="https://img.shields.io/badge/QQ群-1085190201-12B7F5?style=flat-square&logo=qq&logoColor=white" alt="QQ群">
+  </a>
+  <br>
+</p>
+
+<h2>💬 交流反馈</h2>
+<p>🐛 Bug 反馈 / 💡 建议 / 👨‍💻 插件开发交流，欢迎加群：</p>
+<p><del>💬 插件使用问题 / 🐛 Bug反馈 / 👨‍💻 插件开发交流，欢迎加入QQ群：<b>259248174</b>   🎉（这个群G了）</del></p> 
+<p>💬 插件使用问题 / 🐛 Bug反馈 / 👨‍💻 插件开发交流，欢迎加入QQ群：<b>1085190201</b> 🎉</p>
+<p>💡 在群里直接艾特我，回复的更快哦~ ✨</p>
+
+<p><b>💡 提示：</b>
+  <a href="https://github.com/VincentZyuApps/koishi-plugin-otto-hzys" target="_blank">
+    前往 GitHub 或 Gitee README 获得更佳观感 →
   </a>
 </p>
+
+<hr>
 
 <h2>✨ 核心特色</h2>
 
@@ -34,7 +55,7 @@ export const usage = `
   <li>🎚️ <b>RMS 音量归一化</b>：内置均方根算法，自动平滑字与字之间的音量，告别“忽大忽小”。</li>
   <li>📻 <b>原声大碟贪婪匹配</b>：长词优先匹配经典短语（“大家好啊”、“我是说的道理”、“今天来点大家想看的东西”）。</li>
   <li>🔤 <b>中式英文与数字发音</b>：输入 <code>666 ABC</code> 自动转换拼读，流畅自然。</li>
-  <li>📦 <b>免流预热与多镜像分发</b>：支持从 GitHub / Gitee Releases 按需拉取语音包切片，保持 npm 包体极简。</li>
+  <li>📦 <b>在线按需拉取</b>：支持从 GitHub / Gitee Releases 按需拉取语音包切片，保持 npm 包体极简。</li>
 </ul>
 
 <h3>📌 常用指令与别名</h3>
@@ -76,8 +97,4 @@ export const usage = `
 </pre>
 </div>
 </details>
-
-<blockquote style="margin: 18px 0; padding: 14px 18px; border-left: 6px solid #10b981; border-radius: 8px; background: rgba(16, 185, 129, 0.1); color: inherit; font-weight: 600; line-height: 1.7;">
-  💬 插件使用问题 / 🐛 Bug 反馈 / 💡 需求建议，欢迎加入 QQ 交流群：<b style="color: #12B7F5;">1085190201</b>
-</blockquote>
 `

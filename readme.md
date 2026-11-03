@@ -1,6 +1,26 @@
-# koishi-plugin-otto-hzys
+> 💡 推荐前往 [GitHub](https://github.com/VincentZyuApps/koishi-plugin-otto-hzys) 或 [Gitee](https://gitee.com/vincent-zyu/koishi-plugin-otto-hzys) 阅读 README，体验更好。
 
-[![npm](https://img.shields.io/npm/v/koishi-plugin-otto-hzys?style=flat-square)](https://www.npmjs.com/package/koishi-plugin-otto-hzys)
+![koishi-plugin-otto-hzys](https://socialify.git.ci/VincentZyuApps/koishi-plugin-otto-hzys/image?description=1&font=Bitter&forks=1&issues=1&language=1&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ff3%2FKoishi.js_Logo.png&name=1&owner=1&pattern=Plus&pulls=1&stargazers=1&theme=Auto)
+
+# 📻 koishi-plugin-otto-hzys
+
+[![npm](https://img.shields.io/npm/v/koishi-plugin-otto-hzys?style=flat-square&logo=npm)](https://www.npmjs.com/package/koishi-plugin-otto-hzys)
+[![npm-download](https://img.shields.io/npm/dm/koishi-plugin-otto-hzys?style=flat-square&logo=npm)](https://npm-stat.com/charts.html?package=koishi-plugin-otto-hzys)
+
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/VincentZyuApps/koishi-plugin-otto-hzys)
+[![Gitee](https://img.shields.io/badge/Gitee-C71D23?style=for-the-badge&logo=gitee&logoColor=white)](https://gitee.com/vincent-zyu/koishi-plugin-otto-hzys)
+
+[![Koishi Forum](https://img.shields.io/badge/Koishi%20Forum-xxxxx-5546A3?style=for-the-badge&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABU0lEQVR42p2UQSsFYRSGnxnqLuytKWKpKFkQNsS%2FsOHPWPADLCmxU5S7UzYWNrJR7lYiRF2FeWzOMKZ7mXHqNNP5vvP2nu%2B850CY2lP4X1K31ZbaDm%2BpO%2Bpyp5wfAXVEPfRvO1JHf4AVQGbUh7j4EZ4VkrNCXPVRnf3CUBN1SH2KC28VGOV3ntRhNclZHdcAKYM11QR1oVBOXctzFlNgBTC8qmXxPQEegbVeYApIgJT6tg%2F0AdMp0B%2FBpCabK2AAmAAa%2F2GRBft1oBFPkqTAba7LCiAfQC9wClwAY1HJHepuiO29Yrsf1Dn1uiDU3RTYCtTkl1Leg8k9MB4NGgReI28rV3azgyCz0og01Xl1Uz1QX8uCTELm3UbkTF1VJ9Wr0tn3iBSGdjYG0XivE3VN3VD31PM4a3cc2tIGGI0VkTO7rLxGuiy25ejmjfqsvkSXui62TxaK03td4FXTAAAAAElFTkSuQmCC&logoColor=white)](https://forum.koishi.xyz/t/topic/xxxxx)
+
+[![QQ群](https://img.shields.io/badge/QQ群-1085190201-12B7F5?style=flat-square&logo=qq&logoColor=white)](https://qm.qq.com/q/ZHj33L5cuC)
+
+<h2>💬 交流反馈</h2>
+<p>🐛 Bug 反馈 / 💡 建议 / 👨‍💻 插件开发交流，欢迎加群：</p>
+<p><del>💬 插件使用问题 / 🐛 Bug反馈 / 👨‍💻 插件开发交流，欢迎加入QQ群：<b>259248174</b>   🎉（这个群G了）</del></p> 
+<p>💬 插件使用问题 / 🐛 Bug反馈 / 👨‍💻 插件开发交流，欢迎加入QQ群：<b>1085190201</b> 🎉</p>
+<p>💡 在群里直接艾特我，回复的更快哦~ ✨</p>
+
+---
 
 **纯 TypeScript 实现的开箱即用 Otto 活字印刷语音合成插件**，无需部署任何外部 Python Flask 后端，无需依赖易失效的第三方云函数。
 
@@ -54,7 +74,7 @@
 | :--- | :--- | :--- | :--- |
 | `defaultPack` | `string` | `otto` | 默认加载的语音包名称 |
 | `autoDownload` | `boolean` | `true` | 插件启动时是否在后台自动检测并下载默认语音包 |
-| `downloadMirror` | `string` | `https://github.com/lgc-NB2Dev/nonebot-plugin-ottohzys/releases/download/voice-packs` | 远程语音包下载镜像基础地址 |
+| `downloadMirror` | `string` | `https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0` | 远程语音包下载镜像基础地址 |
 | `defaultNorm` | `boolean` | `true` | 默认是否开启音量归一化 |
 | `defaultYsdd` | `boolean` | `true` | 默认是否开启原声大碟匹配 |
 | `defaultSpeed` | `number` | `1.0` | 默认音频播放速度倍率 |
