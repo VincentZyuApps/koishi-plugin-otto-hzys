@@ -8,7 +8,7 @@ export function registerCommands(ctx: Context, config: Config, packManager: Voic
   const logger = ctx.logger('otto-hzys')
   const primaryName = config.commandName || 'hzys'
 
-  const cmd = ctx.command(`${primaryName} <content:text>`, '使用电棍/活字印刷语音合成句子')
+  const cmd = ctx.command(`${primaryName} <content:text>`, '🎙️ 使用电棍/活字印刷语音合成句子')
 
   const aliasSet = new Set<string>()
   const defaultAliases = [
@@ -36,7 +36,7 @@ export function registerCommands(ctx: Context, config: Config, packManager: Voic
   }
 
   // 子指令：查看本地已有的语音包名称与切片统计
-  cmd.subcommand('.pack', '查看本地所有已安装的活字印刷语音包')
+  cmd.subcommand('.pack', '📦 查看本地所有已安装的活字印刷语音包')
     .alias('.packs', '.list')
     .action(async () => {
       const packs = packManager.listInstalledPacks()
@@ -53,14 +53,14 @@ export function registerCommands(ctx: Context, config: Config, packManager: Voic
     })
 
   cmd
-    .option('pack', '-p, --pack <name:string> 指定语音包名称', { fallback: config.defaultPack })
-    .option('reverse', '-r, --reverse 倒放生成的音频', { fallback: false })
-    .option('norm', '-n, --norm 统一音频音量 (归一化)', { fallback: config.defaultNorm })
-    .option('noNorm', '-N, --no-norm 禁用音量归一化')
-    .option('ysdd', '-y, --ysdd 匹配特定长句时使用原声大碟', { fallback: config.defaultYsdd })
-    .option('noYsdd', '-Y, --no-ysdd 禁用原声大碟')
-    .option('speed', '-s, --speed <multiplier:number> 语音播放速度 (0.5~2.5)', { fallback: config.defaultSpeed })
-    .option('pause', '-P, --pause <seconds:number> 标点符号与空格停顿长度 (秒)', { fallback: config.pauseLength })
+    .option('pack', '-p, --pack <name:string> 📁 指定使用的语音包名称', { fallback: config.defaultPack })
+    .option('reverse', '-r, --reverse 🔄 倒放生成的音频 (鬼畜效果)', { fallback: false })
+    .option('norm', '-n, --norm 🎚️ 统一音频音量 (均方根归一化)', { fallback: config.defaultNorm })
+    .option('noNorm', '-N, --no-norm 🔇 禁用音量归一化')
+    .option('ysdd', '-y, --ysdd 📻 匹配特定长句时优先使用原声大碟', { fallback: config.defaultYsdd })
+    .option('noYsdd', '-Y, --no-ysdd 🚫 禁用原声大碟')
+    .option('speed', '-s, --speed <multiplier:number> ⏩ 语音播放速度倍率 (0.5~2.5)', { fallback: config.defaultSpeed })
+    .option('pause', '-P, --pause <seconds:number> ⏱️ 标点符号与空格停顿长度 (秒)', { fallback: config.pauseLength })
     .action(async ({ session, options }, content) => {
       if (!content || !content.trim()) {
         return '请输入要合成的文本，例如：/otto 大家好啊 我是说的道理'
