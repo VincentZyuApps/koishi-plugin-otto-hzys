@@ -22,7 +22,7 @@
 
 ---
 
-**纯 TypeScript 实现的开箱即用 Otto 活字印刷语音合成插件**，无需部署任何外部 Python Flask 后端，无需依赖易失效的第三方云函数。
+**📻 开箱即用、纯 TypeScript 🚀 实现的 Otto 活字印刷语音合成插件 ✨**，无需部署任何外部 Python Flask 后端，无需依赖易失效的第三方云函数。
 
 > 🙏 **上游致谢**：本插件的语音包与实现灵感来自 [@lgc-NB2Dev](https://github.com/lgc-NB2Dev) 的开源项目 [nonebot-plugin-ottohzys](https://github.com/lgc-NB2Dev/nonebot-plugin-ottohzys)，感谢上游作者提供的基础与灵感！
 
