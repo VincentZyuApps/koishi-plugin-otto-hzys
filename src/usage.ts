@@ -57,7 +57,7 @@ export const usage = `
   <li>📻 <b>原声大碟贪婪匹配</b>：长词优先匹配经典短语（“大家好啊”、“我是说的道理”、“今天来点大家想看的东西”）。</li>
   <li>🔤 <b>中式英文与数字发音</b>：输入 <code>666 ABC</code> 自动转换拼读，流畅自然。</li>
   <li>📦 <b>在线按需拉取</b>：支持从 Gitee / GitHub Releases 镜像列表按顺序回退拉取语音包切片，保持 npm 包体极简。</li>
-  <li>💬 <b>按平台语音引用</b>：可配置默认是否引用触发消息，并可为 onebot、qq、telegram、kook、discord 等平台单独覆盖。</li>
+  <li>💬 <b>按平台语音引用</b>：可配置默认是否引用触发消息，并可为 onebot、qq、telegram、kook、lark、discord 等平台单独覆盖。</li>
 </ul>
 
 <h3>📌 常用指令与别名</h3>

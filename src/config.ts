@@ -90,6 +90,7 @@ export const Config: Schema<Config> = Schema.intersect([
         { platform: 'qq', quote: false },
         { platform: 'telegram', quote: true },
         { platform: 'kook', quote: true },
+        { platform: 'lark', quote: true },
         { platform: 'discord', quote: true },
       ])
       .description('📋 按平台覆盖语音引用行为，未匹配的平台使用默认值'),
