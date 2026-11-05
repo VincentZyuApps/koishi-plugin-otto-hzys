@@ -326,8 +326,9 @@ html.dark .k-notice-box .k-notice-title, .theme-root.dark .k-notice-box .k-notic
 <div class="k-card-body" style="${baseBodyStyle}">
   <p>为保证 npm 发布包轻量，插件首次启动若本地未解压切片，会自动根据配置从高可用镜像源拉取：</p>
   <ul style="margin: 6px 0; padding-left: 20px; line-height: 1.8;">
-    <li><b>国内高速加速源</b>：<code>gh-proxy.com</code> / <code>ghproxy.net</code>（大陆服务器免翻墙高速直连）</li>
-    <li><b>官方备用镜像源</b>：GitHub Releases（海外节点备用回退）</li>
+    <li><b>首选高速镜像源</b>：Gitee Releases（公开仓库国内极速直连，免代理，秒级下载）</li>
+    <li><b>国内备用加速源</b>：<code>gh-proxy.com</code> / <code>ghproxy.net</code>（大陆服务器免翻墙 GitHub 加速）</li>
+    <li><b>官方备选镜像源</b>：GitHub Releases（海外节点备用回退）</li>
     <li><b>本地代理支持</b>：若服务器处于受限内网，可开启 <code>useDownloadProxy</code> 并指定 <code>downloadProxyUrl</code>（默认 <code>http://127.0.0.1:7890</code>）。</li>
     <li><b>Python 离线预热脚本</b>：仓库自带免依赖脚本 <code>scripts/download_pack.py</code>，支持直接执行 <code>python3 scripts/download_pack.py --proxy http://127.0.0.1:7890</code> 预先拉取。</li>
     <li><b>本地解压目录</b>：音频切片将自动解压并缓存在 <code>data/otto-hzys/packs/otto</code> 中，就绪后无需重复下载。</li>

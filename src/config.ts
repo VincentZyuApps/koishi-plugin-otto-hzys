@@ -1,10 +1,10 @@
 import { Schema } from 'koishi'
 
 export const DEFAULT_DOWNLOAD_MIRROR_URL_LIST = [
+  'https://gitee.com/vincent-zyu/koishi-plugin-otto-hzys/releases/download/v0.1.0',
   'https://gh-proxy.com/https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0',
   'https://ghproxy.net/https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0',
   'https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0',
-  'https://gitee.com/vincent-zyu/koishi-plugin-otto-hzys/releases/download/v0.1.0',
 ]
 
 export interface AudioQuotePlatformConfig {

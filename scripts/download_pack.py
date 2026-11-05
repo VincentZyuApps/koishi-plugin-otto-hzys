@@ -31,10 +31,10 @@ from pathlib import Path
 
 # 默认候选镜像源列表（按优先级依次尝试）
 DEFAULT_MIRRORS = [
+    "https://gitee.com/vincent-zyu/koishi-plugin-otto-hzys/releases/download/v0.1.0",
     "https://gh-proxy.com/https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0",
     "https://ghproxy.net/https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0",
     "https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0",
-    "https://gitee.com/vincent-zyu/koishi-plugin-otto-hzys/releases/download/v0.1.0",
 ]
 
 
