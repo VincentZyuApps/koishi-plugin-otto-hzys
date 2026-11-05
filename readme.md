@@ -81,7 +81,7 @@
 | `packListName` | `string` | `.packlist` | 语音包列表子指令名称，可自定义 |
 | `downloadMirrorUrlList` | `string[]` | Gitee 和 GitHub Releases 地址 | 远程语音包下载镜像基础地址列表，按顺序逐个尝试 |
 | `defaultAudioQuote` | `boolean` | `true` | 默认发送语音时是否引用触发指令的消息 |
-| `audioQuotePlatformList` | `{ platform, quote }[]` | `onebot: false`、`qq: false`、`discord: true` | 按平台覆盖语音引用行为，未匹配的平台使用默认值 |
+| `audioQuotePlatformList` | `{ platform, quote }[]` | `onebot: false`、`qq: false`、`telegram: true`、`kook: true`、`discord: true` | 按平台覆盖语音引用行为，未匹配的平台使用默认值 |
 | `defaultNorm` | `boolean` | `true` | 默认是否开启音量归一化 |
 | `defaultYsdd` | `boolean` | `true` | 默认是否开启原声大碟匹配 |
 | `defaultSpeed` | `number` | `1.0` | 默认音频播放速度倍率 |
