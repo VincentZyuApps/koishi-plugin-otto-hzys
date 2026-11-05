@@ -20,6 +20,7 @@ export function apply(ctx: Context, config: Config) {
     config.downloadMirrorUrlList,
     config.useDownloadProxy,
     config.downloadProxyUrl,
+    config.dataPath,
   )
 
   // 启动时在后台静默预热默认语音包

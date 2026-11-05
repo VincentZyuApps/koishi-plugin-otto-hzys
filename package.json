@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-otto-hzys",
   "description": "📻 开箱即用、纯 TypeScript 🚀 实现的 Otto 活字印刷语音合成插件 ✨",
-  "version": "0.2.2-rc.1+20261105",
+  "version": "0.2.2-rc.2+20261105",
   "repository": {
     "type": "git",
     "url": "https://github.com/VincentZyuApps/koishi-plugin-otto-hzys.git"

@@ -23,9 +23,11 @@ export class VoicePackManager {
     mirrors: string[],
     private useProxy: boolean = false,
     private proxyUrl: string = 'http://127.0.0.1:7890',
+    dataPath?: string,
   ) {
     this.logger = ctx.logger('otto-hzys')
-    this.packsDir = path.resolve(ctx.baseDir, 'data', 'otto-hzys', 'packs')
+    const baseDataDir = path.resolve(ctx.baseDir, dataPath || 'data/otto-hzys')
+    this.packsDir = path.join(baseDataDir, 'packs')
     fs.mkdirSync(this.packsDir, { recursive: true })
 
     const normalized = Array.from(new Set(
