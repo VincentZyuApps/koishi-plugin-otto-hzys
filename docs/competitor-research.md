@@ -1,8 +1,11 @@
 # Koishi 活字印刷生态现有插件调研与架构对比分析
 
+> 📅 **调研日期**：2026 年 11 月 3 日  
+> 🔍 **检索数据源**：[Koishi 官方插件市场镜像 (StoreLuna)](https://storeluna-cf.vincentzyu233.cn/storeluna/index.json) 与 [Uniapp Koishi Market](https://uniapp-koishi-market.pages.dev/#/)
+
 在开发 `koishi-plugin-otto-hzys` 之前，我们对 Koishi 插件市场中所有与 **Otto / 活字印刷** 相关的现存插件进行了全面的技术调研与源码剖析。
 
-![Koishi 插件市场搜索结果](./images/market-search-otto.png)
+![Koishi 插件市场搜索结果](https://cdn.jsdelivr.net/gh/VincentZyuApps/koishi-plugin-otto-hzys@main/docs/images/uniapp-market-search-otto-20261105.png)
 
 ---
 

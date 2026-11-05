@@ -37,6 +37,14 @@
 - 🔤 **中式英语/数字拼读**：输入字母数字（如 `666 ABC`）自动转为地道中式发音切片。
 - ⏩ **高级音频特效**：支持自由指定语速（`--speed` 0.5x~2.5x）、音频倒放（`--reverse`）、符号停顿长度（`--pause`）。
 
+## 📊 插件市场生态调研与架构对比
+
+在开发本插件前，我们对 Koishi 插件市场中现存的 Otto / 活字印刷插件进行了深入调研（详见完整的 [竞品对比分析文档](./docs/competitor-research.md)）：
+
+![Koishi 插件市场搜索结果](https://cdn.jsdelivr.net/gh/VincentZyuApps/koishi-plugin-otto-hzys@main/docs/images/uniapp-market-search-otto-20261105.png)
+
+区别于以往插件**要么需要部署繁琐的外部 Python Flask 后端**（如 `huozi-generator`），**要么依赖极易失效的第三方个人云函数**（如 `@asuna-bot/otto-synth`），本项目实现了**真正的纯内嵌、零外部后端依赖、毫秒级本地合成**。
+
 ## 📖 指令与用法
 
 ### 主指令

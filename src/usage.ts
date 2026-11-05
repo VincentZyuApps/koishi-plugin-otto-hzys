@@ -2,11 +2,11 @@ const pkg = require('../package.json');
 
 const KOISHI_LOGO_BASE64 = 'data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABU0lEQVR42p2UQSsFYRSGnxnqLuytKWKpKFkQNsS%2FsOHPWPADLCmxU5S7UzYWNrJR7lYiRF2FeWzOMKZ7mXHqNNP5vvP2nu%2B850CY2lP4X1K31ZbaDm%2BpO%2Bpyp5wfAXVEPfRvO1JHf4AVQGbUh7j4EZ4VkrNCXPVRnf3CUBN1SH2KC28VGOV3ntRhNclZHdcAKYM11QR1oVBOXctzFlNgBTC8qmXxPQEegbVeYApIgJT6tg%2F0AdMp0B%2FBpCabK2AAmAAa%2F2GRBft1oBFPkqTAba7LCiAfQC9wClwAY1HJHepuiO29Yrsf1Dn1uiDU3RTYCtTkl1Leg8k9MB4NGgReI28rV3azgyCz0og01Xl1Uz1QX8uCTELm3UbkTF1VJ9Wr0tn3iBSGdjYG0XivE3VN3VD31PM4a3cc2tIGGI0VkTO7rLxGuiy25ejmjfqsvkSXui62TxaK03td4FXTAAAAAElFTkSuQmCC';
 
-// 内联样式兜底变量（兼容极简无外部 CSS 环境）
+// 内联基础样式，标题文字强制以 var(--k-text-dark, inherit) 兜底，确保在任何黑夜模式下 100% 清晰可见
 const baseDetailsStyle = 'margin:12px 0;border-radius:10px;overflow:hidden;box-shadow:var(--k-card-shadow, 0 1px 4px rgb(0 0 0 / 10%));border:1px solid var(--card-border, rgba(127, 127, 127, 0.3));background:var(--k-card-bg, transparent);transition:border-color .2s ease, background-color .2s ease;';
-const baseSummaryStyle = 'padding:10px 14px;cursor:pointer;user-select:none;font-weight:700;display:flex;align-items:center;justify-content:space-between;outline:none;background:var(--card-summary-bg, rgba(127, 127, 127, 0.12));color:var(--card-title-color, var(--k-text-dark, inherit));';
+const baseSummaryStyle = 'padding:10px 14px;cursor:pointer;user-select:none;font-weight:700;display:flex;align-items:center;justify-content:space-between;outline:none;background:var(--card-summary-bg, rgba(127, 127, 127, 0.12));color:var(--card-title-color, var(--k-text-dark, #f5f5f5));';
 const baseBodyStyle = 'padding:10px 16px 14px;color:var(--k-text-dark, inherit);line-height:1.75;font-size:14px;border-top:1px solid var(--card-border, rgba(127, 127, 127, 0.2));background:var(--k-card-bg, transparent);';
-const codeBlockStyle = 'margin:6px 0 10px;padding:8px 12px;background:var(--k-hover-bg, rgba(127, 127, 127, .12));border:1px solid var(--k-color-divider, rgba(127, 127, 127, .2));border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;line-height:1.6;overflow-x:auto;color:var(--k-text-dark, inherit);';
+const codeBlockStyle = 'margin:6px 0 10px;padding:8px 12px;background:var(--k-hover-bg, rgba(127, 127, 127, .15));border:1px solid var(--k-color-divider, rgba(127, 127, 127, .25));border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;line-height:1.6;overflow-x:auto;color:var(--k-text-dark, inherit);';
 
 export const usage = `
 <style>
@@ -29,7 +29,7 @@ export const usage = `
   align-items: center;
   justify-content: space-between;
   background: var(--card-summary-bg);
-  color: var(--card-title-color);
+  color: var(--card-title-color, var(--k-text-dark, inherit));
   list-style: none;
   outline: none;
 }
@@ -37,7 +37,7 @@ export const usage = `
   display: none;
 }
 .k-usage-card summary:hover {
-  filter: brightness(1.05);
+  filter: brightness(1.06);
 }
 .k-usage-card .k-card-body {
   padding: 10px 16px 14px;
@@ -53,8 +53,8 @@ export const usage = `
   gap: 5px;
   font-size: 12px;
   font-weight: 500;
-  opacity: 0.85;
-  color: var(--card-hint-color, var(--card-title-color));
+  opacity: 0.9;
+  color: var(--card-hint-color, var(--k-text-normal, inherit));
 }
 .k-usage-card .k-fold-state::before {
   content: "展开";
@@ -96,11 +96,11 @@ export const usage = `
   --card-title-color: #2b6cb0;
   --card-hint-color: #2b6cb0;
 }
-.card-slate {
-  --card-border: rgba(74, 85, 104, 0.35);
-  --card-summary-bg: rgba(74, 85, 104, 0.1);
-  --card-title-color: #2d3748;
-  --card-hint-color: #4a5568;
+.card-cyan {
+  --card-border: rgba(49, 151, 149, 0.35);
+  --card-summary-bg: rgba(49, 151, 149, 0.1);
+  --card-title-color: #234e52;
+  --card-hint-color: #285e61;
 }
 .card-pink {
   --card-border: rgba(229, 62, 62, 0.35);
@@ -109,42 +109,51 @@ export const usage = `
   --card-hint-color: #c53030;
 }
 
-/* 深色 / 黑夜模式色彩 (Dark Theme) */
-html.dark .card-green, .theme-root.dark .card-green {
+/* 深色 / 黑夜模式色彩 (全面匹配 html.dark, .dark, .theme-root.dark 以及媒体查询) */
+html.dark .card-green, .theme-root.dark .card-green, .dark .card-green {
   --card-border: rgba(72, 187, 120, 0.45);
-  --card-summary-bg: rgba(72, 187, 120, 0.16);
-  --card-title-color: #9ae6b4;
-  --card-hint-color: #68d391;
+  --card-summary-bg: rgba(72, 187, 120, 0.18);
+  --card-title-color: #68d391;
+  --card-hint-color: #9ae6b4;
 }
-html.dark .card-orange, .theme-root.dark .card-orange {
+html.dark .card-orange, .theme-root.dark .card-orange, .dark .card-orange {
   --card-border: rgba(237, 137, 54, 0.45);
-  --card-summary-bg: rgba(237, 137, 54, 0.16);
-  --card-title-color: #fbd38d;
-  --card-hint-color: #f6ad55;
+  --card-summary-bg: rgba(237, 137, 54, 0.18);
+  --card-title-color: #f6ad55;
+  --card-hint-color: #fbd38d;
 }
-html.dark .card-purple, .theme-root.dark .card-purple {
+html.dark .card-purple, .theme-root.dark .card-purple, .dark .card-purple {
   --card-border: rgba(159, 122, 234, 0.45);
-  --card-summary-bg: rgba(159, 122, 234, 0.16);
-  --card-title-color: #d6bcfa;
-  --card-hint-color: #b794f4;
+  --card-summary-bg: rgba(159, 122, 234, 0.18);
+  --card-title-color: #b794f4;
+  --card-hint-color: #d6bcfa;
 }
-html.dark .card-blue, .theme-root.dark .card-blue {
+html.dark .card-blue, .theme-root.dark .card-blue, .dark .card-blue {
   --card-border: rgba(66, 153, 225, 0.45);
-  --card-summary-bg: rgba(66, 153, 225, 0.16);
-  --card-title-color: #90cdf4;
-  --card-hint-color: #63b3ed;
+  --card-summary-bg: rgba(66, 153, 225, 0.18);
+  --card-title-color: #63b3ed;
+  --card-hint-color: #90cdf4;
 }
-html.dark .card-slate, .theme-root.dark .card-slate {
-  --card-border: rgba(160, 174, 192, 0.45);
-  --card-summary-bg: rgba(160, 174, 192, 0.16);
-  --card-title-color: #e2e8f0;
-  --card-hint-color: #cbd5e0;
+html.dark .card-cyan, .theme-root.dark .card-cyan, .dark .card-cyan {
+  --card-border: rgba(78, 205, 196, 0.45);
+  --card-summary-bg: rgba(78, 205, 196, 0.18);
+  --card-title-color: #4fd1c5;
+  --card-hint-color: #81e6d9;
 }
-html.dark .card-pink, .theme-root.dark .card-pink {
+html.dark .card-pink, .theme-root.dark .card-pink, .dark .card-pink {
   --card-border: rgba(245, 101, 101, 0.45);
-  --card-summary-bg: rgba(245, 101, 101, 0.16);
-  --card-title-color: #feb2b2;
-  --card-hint-color: #fc8181;
+  --card-summary-bg: rgba(245, 101, 101, 0.18);
+  --card-title-color: #fc8181;
+  --card-hint-color: #feb2b2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .card-green { --card-title-color: #68d391; --card-summary-bg: rgba(72,187,120,0.18); }
+  :root:not(.light) .card-orange { --card-title-color: #f6ad55; --card-summary-bg: rgba(237,137,54,0.18); }
+  :root:not(.light) .card-purple { --card-title-color: #b794f4; --card-summary-bg: rgba(159,122,234,0.18); }
+  :root:not(.light) .card-blue { --card-title-color: #63b3ed; --card-summary-bg: rgba(66,153,225,0.18); }
+  :root:not(.light) .card-cyan { --card-title-color: #4fd1c5; --card-summary-bg: rgba(78,205,196,0.18); }
+  :root:not(.light) .card-pink { --card-title-color: #fc8181; --card-summary-bg: rgba(245,101,101,0.18); }
 }
 </style>
 
@@ -270,7 +279,7 @@ html.dark .card-pink, .theme-root.dark .card-pink {
     <li><code>你们可能不知道只用二十万赢到五百七十八万是什么概念</code></li>
     <li><code>哈比下</code>、<code>白银也是银</code>、<code>别急</code>、<code>直接拔电源</code></li>
   </ul>
-  <p style="margin-top: 6px; font-size: 13px; color: var(--k-text-light, #718096);">💡 提示：若希望故意拆开成机械电音，可使用 <code>-Y</code> 参数或在字与字之间插入空格。</p>
+  <p style="margin-top: 6px; font-size: 13px; color: var(--k-text-light, #909399);">💡 提示：若希望故意拆开成机械电音，可使用 <code>-Y</code> 参数或在字与字之间插入空格。</p>
 </div>
 </details>
 
@@ -293,10 +302,10 @@ html.dark .card-pink, .theme-root.dark .card-pink {
 </div>
 </details>
 
-<!-- ================= 折叠区域 5: 蓝灰卡片 - 平台兼容性 ================= -->
-<details class="k-usage-card card-slate" style="${baseDetailsStyle}">
+<!-- ================= 折叠区域 5: 清爽青蓝卡片 - 平台兼容性 (杜绝暗黑隐身) ================= -->
+<details class="k-usage-card card-cyan" style="${baseDetailsStyle}">
 <summary style="${baseSummaryStyle}">
-  <span>💬 多聊天平台语音适配与引用策略</span>
+  <span style="color: var(--card-title-color, var(--k-text-dark, #4fd1c5));">💬 多聊天平台语音适配与引用策略</span>
   <span class="k-fold-hint">
     <span class="k-fold-state"></span>
     <span class="k-arrow-icon">▼</span>
@@ -330,7 +339,7 @@ html.dark .card-pink, .theme-root.dark .card-pink {
       💬 点我直达 Discussions #5「神金台词分享专区」→
     </a>
   </p>
-  <p style="font-size: 13px; color: var(--k-text-light, #718096);">大家发掘的好玩的谐音梗、整活句子统统可以贴在置顶讨论帖里交流哦~ 2333</p>
+  <p style="font-size: 13px; color: var(--k-text-light, #909399);">大家发掘的好玩的谐音梗、整活句子统统可以贴在置顶讨论帖里交流哦~ 2333</p>
 </div>
 </details>
 
