@@ -28,7 +28,7 @@ export interface Config {
   downloadMirrorUrlList: string[] // 🌐 在线语音包下载镜像基础地址列表
 
   // ===== 💬 语音发送与引用设置 =====
-  defaultAudioQuote: boolean // 💬 默认发送语音时是否引用触发消息
+  enableAudioQuoteCommandMessage: boolean // 💬 默认发送语音时是否引用触发消息
   audioQuotePlatformList: AudioQuotePlatformConfig[] // 📋 按平台覆盖语音引用行为
 
   // ===== 🎛️ 音频合成与特效默认参数 =====
@@ -87,9 +87,9 @@ export const Config: Schema<Config> = Schema.intersect([
 
   // ===== 💬 语音发送与引用设置 =====
   Schema.object({
-    defaultAudioQuote: Schema.union([
-      Schema.const(true).description('带引用（quote）'),
-      Schema.const(false).description('不带引用'),
+    enableAudioQuoteCommandMessage: Schema.union([
+      Schema.const(true).description('🟢 带引用（quote）'),
+      Schema.const(false).description('🔴 不带引用'),
     ])
       .role('radio')
       .default(true)

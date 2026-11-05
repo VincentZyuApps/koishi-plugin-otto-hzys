@@ -6,12 +6,12 @@ import { tokenizeSentence } from './tokenizer'
 
 function shouldQuoteAudio(config: Config, platform?: string): boolean {
   const target = String(platform || '').trim().toLowerCase()
-  if (!target) return config.defaultAudioQuote
+  if (!target) return config.enableAudioQuoteCommandMessage
 
   const matched = (config.audioQuotePlatformList || []).find(
     item => String(item.platform || '').trim().toLowerCase() === target,
   )
-  return matched ? matched.quote : config.defaultAudioQuote
+  return matched ? matched.quote : config.enableAudioQuoteCommandMessage
 }
 
 export function registerCommands(ctx: Context, config: Config, packManager: VoicePackManager) {

@@ -110,7 +110,7 @@ python3 scripts/download_pack.py --proxy http://127.0.0.1:7890 --force
 | `downloadProxyUrl` | `string` | `http://127.0.0.1:7890` | 下载语音包使用的代理服务器地址 |
 | `packListName` | `string` | `.packlist` | 语音包列表子指令名称，可自定义 |
 | `downloadMirrorUrlList` | `string[]` | 高速加速镜像与 GitHub Releases 地址 | 远程语音包下载镜像基础地址列表，按顺序逐个尝试 |
-| `defaultAudioQuote` | `boolean` | `true` | 默认发送语音时是否引用触发指令的消息 |
+| `enableAudioQuoteCommandMessage` | `boolean` | `true` | 默认发送语音时是否引用触发指令的消息 |
 | `audioQuotePlatformList` | `{ platform, quote }[]` | `onebot: false`、`qq: false`、`telegram: true`、`kook: true`、`lark: true`、`discord: true` | 按平台覆盖语音引用行为，未匹配的平台使用默认值 |
 | `defaultNorm` | `boolean` | `true` | 默认是否开启音量归一化 |
 | `defaultYsdd` | `boolean` | `true` | 默认是否开启原声大碟匹配 |
