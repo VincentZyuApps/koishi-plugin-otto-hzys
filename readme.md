@@ -26,6 +26,14 @@
 
 > 🙏 **上游致谢**：本插件的语音包与实现灵感来自 [@lgc-NB2Dev](https://github.com/lgc-NB2Dev) 的开源项目 [nonebot-plugin-ottohzys](https://github.com/lgc-NB2Dev/nonebot-plugin-ottohzys)，感谢上游作者提供的基础与灵感！
 
+## 📸 效果预览
+
+在聊天平台（以 OneBot 协议为例）直接发送长文本或歌词，毫秒级快速合成并自动发出原生群语音条（支持超长连续合成、原声大碟智能插入与消息引用）：
+
+<p align="center">
+  <img src="docs/images/preview/preview.onebot.png" alt="OneBot 活字印刷实机合成效果预览" width="720">
+</p>
+
 ## ✨ 特性
 
 - 🚀 **纯 TypeScript 纯净架构**：内置轻量纯 JS/TS WAV 编解码与重采样引擎，完全在 Node.js 内存中毫秒级完成音频切片拼接。
