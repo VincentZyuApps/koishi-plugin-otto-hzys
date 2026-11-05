@@ -2,44 +2,152 @@ const pkg = require('../package.json');
 
 const KOISHI_LOGO_BASE64 = 'data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABU0lEQVR42p2UQSsFYRSGnxnqLuytKWKpKFkQNsS%2FsOHPWPADLCmxU5S7UzYWNrJR7lYiRF2FeWzOMKZ7mXHqNNP5vvP2nu%2B850CY2lP4X1K31ZbaDm%2BpO%2Bpyp5wfAXVEPfRvO1JHf4AVQGbUh7j4EZ4VkrNCXPVRnf3CUBN1SH2KC28VGOV3ntRhNclZHdcAKYM11QR1oVBOXctzFlNgBTC8qmXxPQEegbVeYApIgJT6tg%2F0AdMp0B%2FBpCabK2AAmAAa%2F2GRBft1oBFPkqTAba7LCiAfQC9wClwAY1HJHepuiO29Yrsf1Dn1uiDU3RTYCtTkl1Leg8k9MB4NGgReI28rV3azgyCz0og01Xl1Uz1QX8uCTELm3UbkTF1VJ9Wr0tn3iBSGdjYG0XivE3VN3VD31PM4a3cc2tIGGI0VkTO7rLxGuiy25ejmjfqsvkSXui62TxaK03td4FXTAAAAAElFTkSuQmCC';
 
-// 通用卡片与代码块样式
-const baseDetailsStyle = 'margin:12px 0;border-radius:10px;overflow:hidden;box-shadow:var(--k-card-shadow, 0 1px 4px rgb(0 0 0 / 10%));transition:border-color .2s ease, background-color .2s ease;';
-const baseSummaryStyle = 'padding:10px 14px;cursor:pointer;user-select:none;font-weight:700;display:flex;align-items:center;';
-const baseBodyStyle = 'padding:10px 16px 14px;color:var(--k-text-dark, inherit);line-height:1.75;font-size:14px;';
+// 内联样式兜底变量（兼容极简无外部 CSS 环境）
+const baseDetailsStyle = 'margin:12px 0;border-radius:10px;overflow:hidden;box-shadow:var(--k-card-shadow, 0 1px 4px rgb(0 0 0 / 10%));border:1px solid var(--card-border, rgba(127, 127, 127, 0.3));background:var(--k-card-bg, transparent);transition:border-color .2s ease, background-color .2s ease;';
+const baseSummaryStyle = 'padding:10px 14px;cursor:pointer;user-select:none;font-weight:700;display:flex;align-items:center;justify-content:space-between;outline:none;background:var(--card-summary-bg, rgba(127, 127, 127, 0.12));color:var(--card-title-color, var(--k-text-dark, inherit));';
+const baseBodyStyle = 'padding:10px 16px 14px;color:var(--k-text-dark, inherit);line-height:1.75;font-size:14px;border-top:1px solid var(--card-border, rgba(127, 127, 127, 0.2));background:var(--k-card-bg, transparent);';
 const codeBlockStyle = 'margin:6px 0 10px;padding:8px 12px;background:var(--k-hover-bg, rgba(127, 127, 127, .12));border:1px solid var(--k-color-divider, rgba(127, 127, 127, .2));border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;line-height:1.6;overflow-x:auto;color:var(--k-text-dark, inherit);';
 
-// 6 大主题色彩独立卡片配置（默认折叠，带有独立背景色与圆角框）
-// 1. 绿卡（指令参数）
-const greenDetails = `${baseDetailsStyle}border:1px solid rgba(47, 133, 90, 0.4);background:rgba(47, 133, 90, 0.05);`;
-const greenSummary = `${baseSummaryStyle}background:rgba(47, 133, 90, 0.12);color:#22543d;`;
-const greenBody = `${baseBodyStyle}border-top:1px solid rgba(47, 133, 90, 0.2);`;
-
-// 2. 橙金卡（调音实战示例）
-const orangeDetails = `${baseDetailsStyle}border:1px solid rgba(221, 107, 32, 0.4);background:rgba(221, 107, 32, 0.05);`;
-const orangeSummary = `${baseSummaryStyle}background:rgba(221, 107, 32, 0.12);color:#9c4221;`;
-const orangeBody = `${baseBodyStyle}border-top:1px solid rgba(221, 107, 32, 0.2);`;
-
-// 3. 紫卡（原声大碟词库）
-const purpleDetails = `${baseDetailsStyle}border:1px solid rgba(128, 90, 213, 0.4);background:rgba(128, 90, 213, 0.05);`;
-const purpleSummary = `${baseSummaryStyle}background:rgba(128, 90, 213, 0.12);color:#553c9a;`;
-const purpleBody = `${baseBodyStyle}border-top:1px solid rgba(128, 90, 213, 0.2);`;
-
-// 4. 蓝卡（离线包与镜像加速）
-const blueDetails = `${baseDetailsStyle}border:1px solid rgba(49, 130, 206, 0.4);background:rgba(49, 130, 206, 0.05);`;
-const blueSummary = `${baseSummaryStyle}background:rgba(49, 130, 206, 0.12);color:#2b6cb0;`;
-const blueBody = `${baseBodyStyle}border-top:1px solid rgba(49, 130, 206, 0.2);`;
-
-// 5. 蓝灰卡（多平台适配与引用）
-const slateDetails = `${baseDetailsStyle}border:1px solid rgba(74, 85, 104, 0.4);background:rgba(74, 85, 104, 0.05);`;
-const slateSummary = `${baseSummaryStyle}background:rgba(74, 85, 104, 0.12);color:#2d3748;`;
-const slateBody = `${baseBodyStyle}border-top:1px solid rgba(74, 85, 104, 0.2);`;
-
-// 6. 粉赤卡（神金台词讨论区）
-const pinkDetails = `${baseDetailsStyle}border:1px solid rgba(229, 62, 62, 0.4);background:rgba(229, 62, 62, 0.05);`;
-const pinkSummary = `${baseSummaryStyle}background:rgba(229, 62, 62, 0.12);color:#9b2c2c;`;
-const pinkBody = `${baseBodyStyle}border-top:1px solid rgba(229, 62, 62, 0.2);`;
-
 export const usage = `
+<style>
+/* ================= Koishi WebUI 白天 & 黑夜双模式高对比度卡片样式 ================= */
+.k-usage-card {
+  margin: 12px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--k-card-shadow, 0 1px 4px rgba(0, 0, 0, 0.1));
+  border: 1px solid var(--card-border);
+  background: var(--k-card-bg, transparent);
+  transition: border-color .2s ease, background-color .2s ease;
+}
+.k-usage-card summary {
+  padding: 10px 14px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card-summary-bg);
+  color: var(--card-title-color);
+  list-style: none;
+  outline: none;
+}
+.k-usage-card summary::-webkit-details-marker {
+  display: none;
+}
+.k-usage-card summary:hover {
+  filter: brightness(1.05);
+}
+.k-usage-card .k-card-body {
+  padding: 10px 16px 14px;
+  color: var(--k-text-dark, inherit);
+  line-height: 1.75;
+  font-size: 14px;
+  border-top: 1px solid var(--card-border);
+  background: var(--k-card-bg, transparent);
+}
+.k-usage-card .k-fold-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.85;
+  color: var(--card-hint-color, var(--card-title-color));
+}
+.k-usage-card .k-fold-state::before {
+  content: "展开";
+}
+.k-usage-card[open] summary .k-fold-state::before {
+  content: "收起";
+}
+.k-usage-card .k-arrow-icon {
+  display: inline-block;
+  transition: transform .25s ease;
+  font-size: 11px;
+}
+.k-usage-card[open] summary .k-arrow-icon {
+  transform: rotate(180deg);
+}
+
+/* 浅色 / 白天模式色彩 (Light Theme) */
+.card-green {
+  --card-border: rgba(47, 133, 90, 0.35);
+  --card-summary-bg: rgba(47, 133, 90, 0.1);
+  --card-title-color: #22543d;
+  --card-hint-color: #276749;
+}
+.card-orange {
+  --card-border: rgba(221, 107, 32, 0.35);
+  --card-summary-bg: rgba(221, 107, 32, 0.1);
+  --card-title-color: #9c4221;
+  --card-hint-color: #c05621;
+}
+.card-purple {
+  --card-border: rgba(128, 90, 213, 0.35);
+  --card-summary-bg: rgba(128, 90, 213, 0.1);
+  --card-title-color: #553c9a;
+  --card-hint-color: #6b46c1;
+}
+.card-blue {
+  --card-border: rgba(49, 130, 206, 0.35);
+  --card-summary-bg: rgba(49, 130, 206, 0.1);
+  --card-title-color: #2b6cb0;
+  --card-hint-color: #2b6cb0;
+}
+.card-slate {
+  --card-border: rgba(74, 85, 104, 0.35);
+  --card-summary-bg: rgba(74, 85, 104, 0.1);
+  --card-title-color: #2d3748;
+  --card-hint-color: #4a5568;
+}
+.card-pink {
+  --card-border: rgba(229, 62, 62, 0.35);
+  --card-summary-bg: rgba(229, 62, 62, 0.1);
+  --card-title-color: #9b2c2c;
+  --card-hint-color: #c53030;
+}
+
+/* 深色 / 黑夜模式色彩 (Dark Theme) */
+html.dark .card-green, .theme-root.dark .card-green {
+  --card-border: rgba(72, 187, 120, 0.45);
+  --card-summary-bg: rgba(72, 187, 120, 0.16);
+  --card-title-color: #9ae6b4;
+  --card-hint-color: #68d391;
+}
+html.dark .card-orange, .theme-root.dark .card-orange {
+  --card-border: rgba(237, 137, 54, 0.45);
+  --card-summary-bg: rgba(237, 137, 54, 0.16);
+  --card-title-color: #fbd38d;
+  --card-hint-color: #f6ad55;
+}
+html.dark .card-purple, .theme-root.dark .card-purple {
+  --card-border: rgba(159, 122, 234, 0.45);
+  --card-summary-bg: rgba(159, 122, 234, 0.16);
+  --card-title-color: #d6bcfa;
+  --card-hint-color: #b794f4;
+}
+html.dark .card-blue, .theme-root.dark .card-blue {
+  --card-border: rgba(66, 153, 225, 0.45);
+  --card-summary-bg: rgba(66, 153, 225, 0.16);
+  --card-title-color: #90cdf4;
+  --card-hint-color: #63b3ed;
+}
+html.dark .card-slate, .theme-root.dark .card-slate {
+  --card-border: rgba(160, 174, 192, 0.45);
+  --card-summary-bg: rgba(160, 174, 192, 0.16);
+  --card-title-color: #e2e8f0;
+  --card-hint-color: #cbd5e0;
+}
+html.dark .card-pink, .theme-root.dark .card-pink {
+  --card-border: rgba(245, 101, 101, 0.45);
+  --card-summary-bg: rgba(245, 101, 101, 0.16);
+  --card-title-color: #feb2b2;
+  --card-hint-color: #fc8181;
+}
+</style>
+
 <h1>🏷️ Koishi 插件：Otto 活字印刷语音合成 otto-hzys</h1>
 <h2>🎯 插件版本：v${pkg.version}</h2>
 
@@ -101,11 +209,15 @@ export const usage = `
 </div>
 
 <!-- ================= 折叠区域 1: 绿色卡片 - 参数选项 ================= -->
-<details style="${greenDetails}">
-<summary style="${greenSummary}">
+<details class="k-usage-card card-green" style="${baseDetailsStyle}">
+<summary style="${baseSummaryStyle}">
   <span>🎛️ 指令参数与选项说明</span>
+  <span class="k-fold-hint">
+    <span class="k-fold-state"></span>
+    <span class="k-arrow-icon">▼</span>
+  </span>
 </summary>
-<div style="${greenBody}">
+<div class="k-card-body" style="${baseBodyStyle}">
   <ul style="margin: 6px 0; padding-left: 20px; line-height: 1.85;">
     <li><code>-s, --speed &lt;multiplier&gt;</code>：调节语音语速，范围 <code>0.5 ~ 2.5</code>（默认 <code>1.0</code>）。</li>
     <li><code>-r, --reverse</code>：倒放合成后的音频（制造神金与鬼畜效果）。</li>
@@ -118,11 +230,15 @@ export const usage = `
 </details>
 
 <!-- ================= 折叠区域 2: 橙金卡片 - 调音使用示例 ================= -->
-<details style="${orangeDetails}">
-<summary style="${orangeSummary}">
+<details class="k-usage-card card-orange" style="${baseDetailsStyle}">
+<summary style="${baseSummaryStyle}">
   <span>💡 常用使用与调音鬼畜示例</span>
+  <span class="k-fold-hint">
+    <span class="k-fold-state"></span>
+    <span class="k-arrow-icon">▼</span>
+  </span>
 </summary>
-<div style="${orangeBody}">
+<div class="k-card-body" style="${baseBodyStyle}">
   <p style="margin: 8px 0 2px;"><b>1. 基础活字印刷合成：</b></p>
   <pre style="${codeBlockStyle}"><code>/otto 大家好啊 我是说的道理</code></pre>
 
@@ -138,11 +254,15 @@ export const usage = `
 </details>
 
 <!-- ================= 折叠区域 3: 紫色卡片 - 原声大碟短语库 ================= -->
-<details style="${purpleDetails}">
-<summary style="${purpleSummary}">
+<details class="k-usage-card card-purple" style="${baseDetailsStyle}">
+<summary style="${baseSummaryStyle}">
   <span>📻 内置原声大碟精选短语（长词贪婪匹配）</span>
+  <span class="k-fold-hint">
+    <span class="k-fold-state"></span>
+    <span class="k-arrow-icon">▼</span>
+  </span>
 </summary>
-<div style="${purpleBody}">
+<div class="k-card-body" style="${baseBodyStyle}">
   <p>插件内置了经典长短语优先匹配机制，当文本命中以下经典台词时，会自动调用原版连续采样音频，听感比单字拼接更加自然连贯：</p>
   <ul style="margin: 6px 0; padding-left: 20px; line-height: 1.8;">
     <li><code>大家好啊</code>、<code>我是说的道理</code>、<code>今天来点大家想看的东西</code></li>
@@ -150,16 +270,20 @@ export const usage = `
     <li><code>你们可能不知道只用二十万赢到五百七十八万是什么概念</code></li>
     <li><code>哈比下</code>、<code>白银也是银</code>、<code>别急</code>、<code>直接拔电源</code></li>
   </ul>
-  <p style="margin-top: 6px; font-size: 13px; color: #718096;">💡 提示：若希望故意拆开成机械电音，可使用 <code>-Y</code> 参数或在字与字之间插入空格。</p>
+  <p style="margin-top: 6px; font-size: 13px; color: var(--k-text-light, #718096);">💡 提示：若希望故意拆开成机械电音，可使用 <code>-Y</code> 参数或在字与字之间插入空格。</p>
 </div>
 </details>
 
 <!-- ================= 折叠区域 4: 蓝色卡片 - 离线包与镜像拉取 ================= -->
-<details style="${blueDetails}">
-<summary style="${blueSummary}">
+<details class="k-usage-card card-blue" style="${baseDetailsStyle}">
+<summary style="${baseSummaryStyle}">
   <span>📦 语音包离线下载与镜像源配置</span>
+  <span class="k-fold-hint">
+    <span class="k-fold-state"></span>
+    <span class="k-arrow-icon">▼</span>
+  </span>
 </summary>
-<div style="${blueBody}">
+<div class="k-card-body" style="${baseBodyStyle}">
   <p>为保证 npm 发布包轻量，插件首次启动若本地未解压切片，会自动根据配置从高可用镜像源拉取：</p>
   <ul style="margin: 6px 0; padding-left: 20px; line-height: 1.8;">
     <li><b>首选镜像源</b>：Gitee Releases（国内网络极速直连，免代理，秒级下载）</li>
@@ -170,11 +294,15 @@ export const usage = `
 </details>
 
 <!-- ================= 折叠区域 5: 蓝灰卡片 - 平台兼容性 ================= -->
-<details style="${slateDetails}">
-<summary style="${slateSummary}">
+<details class="k-usage-card card-slate" style="${baseDetailsStyle}">
+<summary style="${baseSummaryStyle}">
   <span>💬 多聊天平台语音适配与引用策略</span>
+  <span class="k-fold-hint">
+    <span class="k-fold-state"></span>
+    <span class="k-arrow-icon">▼</span>
+  </span>
 </summary>
-<div style="${slateBody}">
+<div class="k-card-body" style="${baseBodyStyle}">
   <p>插件输出标准 Koishi <code>h.audio</code> 媒体流，深度适配各大平台协议：</p>
   <ul style="margin: 6px 0; padding-left: 20px; line-height: 1.8;">
     <li><b>OneBot / Red 平台</b>：自动支持通过语音消息发送，并支持 quote 引用。</li>
@@ -186,11 +314,15 @@ export const usage = `
 </details>
 
 <!-- ================= 折叠区域 6: 粉赤卡片 - 讨论区与神金台词 ================= -->
-<details style="${pinkDetails}">
-<summary style="${pinkSummary}">
+<details class="k-usage-card card-pink" style="${baseDetailsStyle}">
+<summary style="${baseSummaryStyle}">
   <span>🎉 活字茶话会：分享你的神金台词与调音组合！</span>
+  <span class="k-fold-hint">
+    <span class="k-fold-state"></span>
+    <span class="k-arrow-icon">▼</span>
+  </span>
 </summary>
-<div style="${pinkBody}">
+<div class="k-card-body" style="${baseBodyStyle}">
   <p>你在群里试出了哪些具有绝妙节目效果的活字印刷台词？或者发现某种离谱的 <code>-s</code>、<code>-r</code> 调音组合？</p>
   <p style="margin: 10px 0;">
     👉 <b>欢迎前往 GitHub 社区讨论区分享交流：</b><br>
@@ -198,7 +330,7 @@ export const usage = `
       💬 点我直达 Discussions #5「神金台词分享专区」→
     </a>
   </p>
-  <p style="font-size: 13px; color: #718096;">大家发掘的好玩的谐音梗、整活句子统统可以贴在置顶讨论帖里交流哦~ 2333</p>
+  <p style="font-size: 13px; color: var(--k-text-light, #718096);">大家发掘的好玩的谐音梗、整活句子统统可以贴在置顶讨论帖里交流哦~ 2333</p>
 </div>
 </details>
 
