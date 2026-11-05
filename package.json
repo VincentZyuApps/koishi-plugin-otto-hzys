@@ -14,7 +14,8 @@
   "typings": "lib/index.d.ts",
   "files": [
     "lib",
-    "dist"
+    "dist",
+    "scripts"
   ],
   "license": "MIT",
   "keywords": [
