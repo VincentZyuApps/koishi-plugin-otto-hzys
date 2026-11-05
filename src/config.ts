@@ -21,7 +21,7 @@ export interface Config {
   packListAliases?: string[] // 📦 语音包列表子指令别名列表（table）
 
   // ===== 📦 语音包与下载设置 =====
-  dataPath?: string // 📁 本地数据存储目录（只读）
+  dataPath?: string[] // 📁 本地数据存储目录（只读）
   defaultPack: string // 🎙️ 默认使用的语音包名称（默认 otto）
   autoDownload: boolean // 🚀 启动时若缺失是否自动静默下载
   useDownloadProxy: boolean // 🌐 下载语音包时是否使用代理
@@ -67,10 +67,11 @@ export const Config: Schema<Config> = Schema.intersect([
 
   // ===== 📦 语音包与下载设置 =====
   Schema.object({
-    dataPath: Schema.string()
+    dataPath: Schema.array(Schema.string())
+      .role('table')
       .disabled()
-      .default('data/otto-hzys')
-      .description('📁 本地数据存储目录（基于 Koishi 根目录 ctx.baseDir 解析。当前暂时只读不可修改；若有自定义路径需求欢迎提 Issue/PR 或加群反馈）'),
+      .default(['data', 'otto-hzys'])
+      .description('📁 本地数据存储路径切片（基于 Koishi 根目录 ctx.baseDir 解析。当前暂时只读不可修改；若有自定义路径需求欢迎提 Issue/PR 或加群反馈）'),
     defaultPack: Schema.string()
       .default('otto')
       .description('🎙️ 默认使用的语音包名称（存放于 data/otto-hzys/packs/<name>）'),
@@ -103,7 +104,11 @@ export const Config: Schema<Config> = Schema.intersect([
       platform: Schema.string()
         .required()
         .description('🎯 平台名称（如 onebot、discord、qq）'),
-      quote: Schema.boolean()
+      quote: Schema.union([
+        Schema.const(true).description('🟢 带引用'),
+        Schema.const(false).description('🔴 不带引用'),
+      ])
+        .role('radio')
         .default(true)
         .description('💬 该平台发送语音时是否带引用'),
     }))

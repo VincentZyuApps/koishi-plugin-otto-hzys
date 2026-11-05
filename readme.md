@@ -111,7 +111,7 @@ python3 scripts/download_pack.py --proxy http://127.0.0.1:7890 --force
 
 | 配置项 | 类型 | 默认值 | 说明 |
 | :--- | :--- | :--- | :--- |
-| `dataPath` | `string` | `data/otto-hzys` | 本地数据存储目录（基于 `ctx.baseDir`，只读锁定） |
+| `dataPath` | `string[]` | `['data', 'otto-hzys']` | 本地数据存储路径切片（基于 `ctx.baseDir`，只读锁定） |
 | `defaultPack` | `string` | `otto` | 默认加载的语音包名称 |
 | `autoDownload` | `boolean` | `true` | 插件启动时是否在后台自动检测并下载默认语音包 |
 | `enableCaptureQuote` | `boolean` | `true` | 是否把被引用消息的文本内容自动作为合成输入 |
