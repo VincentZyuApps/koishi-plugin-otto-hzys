@@ -87,6 +87,7 @@ export const Config: Schema<Config> = Schema.intersect([
       .role('table')
       .default([
         { platform: 'onebot', quote: false },
+        { platform: 'qq', quote: false },
         { platform: 'discord', quote: true },
       ])
       .description('📋 按平台覆盖语音引用行为，未匹配的平台使用默认值'),
