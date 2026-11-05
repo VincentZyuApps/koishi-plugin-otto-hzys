@@ -16,7 +16,7 @@ export interface Config {
   // ===== 📌 指令与别名设置 =====
   commandName?: string // 📌 主指令名称（默认 hzys）
   commandAliases?: string[] // 🏷️ 指令别名列表（table）
-  captureQuotedMessage: boolean // 💬 是否捕获引用消息文本作为合成输入
+  enableCaptureQuote: boolean // 💬 是否捕获引用消息文本作为合成输入
   packListName?: string // 📦 语音包列表子指令名称（默认 .packlist）
   packListAliases?: string[] // 📦 语音包列表子指令别名列表（table）
 
@@ -48,9 +48,9 @@ export const Config: Schema<Config> = Schema.intersect([
       .role('table')
       .default(['otto', 'ottohzys', 'otto-hzys', '活字印刷', 'otto活字印刷', 'otto-活字印刷', '欧头活字印刷', '欧头-活字印刷'])
       .description('🏷️ 指令别名列表（在聊天中可通过任意别名触发）'),
-    captureQuotedMessage: Schema.union([
-      Schema.const(true).description('✅ 开启：引用消息时，自动把被引用文本作为 Otto 合成输入（Koishi 默认行为）'),
-      Schema.const(false).description('🚫 关闭：忽略被引用文本，仅使用指令后手动输入的内容'),
+    enableCaptureQuote: Schema.union([
+      Schema.const(true).description('🟢 开启：引用消息时，自动把被引用文本作为 Otto 合成输入（Koishi 默认行为）'),
+      Schema.const(false).description('🔴 关闭：忽略被引用文本，仅使用指令后手动输入的内容'),
     ])
       .role('radio')
       .default(true)

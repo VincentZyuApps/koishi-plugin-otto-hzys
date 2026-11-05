@@ -17,7 +17,7 @@ function shouldQuoteAudio(config: Config, platform?: string): boolean {
 export function registerCommands(ctx: Context, config: Config, packManager: VoicePackManager) {
   const logger = ctx.logger('otto-hzys')
   const primaryName = config.commandName || 'hzys'
-  const captureQuote = config.captureQuotedMessage !== false
+  const captureQuote = config.enableCaptureQuote !== false
 
   const cmd = ctx.command(`${primaryName} <content:text>`, '🎙️ 使用电棍/活字印刷语音合成句子', { captureQuote })
 
