@@ -43,7 +43,7 @@
 
 ### 子指令
 
-- `hzys.packlist`（别名 `.pack`、`.packs`、`.list`）：查看本地所有已下载/安装的语音包名称及音频切片数量统计。
+- `hzys.packlist`（别名 `.pack`、`.packs`、`.list`）：查看本地所有已下载/安装的语音包名称及音频切片数量统计。子指令名可通过配置项 `packListName` 自定义。
 
 ### 选项参数
 
@@ -78,7 +78,10 @@
 | :--- | :--- | :--- | :--- |
 | `defaultPack` | `string` | `otto` | 默认加载的语音包名称 |
 | `autoDownload` | `boolean` | `true` | 插件启动时是否在后台自动检测并下载默认语音包 |
-| `downloadMirror` | `string` | `https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0` | 远程语音包下载镜像基础地址 |
+| `packListName` | `string` | `.packlist` | 语音包列表子指令名称，可自定义 |
+| `downloadMirrorUrlList` | `string[]` | Gitee 和 GitHub Releases 地址 | 远程语音包下载镜像基础地址列表，按顺序逐个尝试 |
+| `defaultAudioQuote` | `boolean` | `true` | 默认发送语音时是否引用触发指令的消息 |
+| `audioQuotePlatformList` | `{ platform, quote }[]` | `onebot: false`、`qq: false`、`telegram: true`、`kook: true`、`lark: true`、`discord: true` | 按平台覆盖语音引用行为，未匹配的平台使用默认值 |
 | `defaultNorm` | `boolean` | `true` | 默认是否开启音量归一化 |
 | `defaultYsdd` | `boolean` | `true` | 默认是否开启原声大碟匹配 |
 | `defaultSpeed` | `number` | `1.0` | 默认音频播放速度倍率 |

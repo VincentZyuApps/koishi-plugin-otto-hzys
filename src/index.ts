@@ -15,7 +15,7 @@ export const name = 'otto-hzys'
 
 export function apply(ctx: Context, config: Config) {
   const logger = ctx.logger('otto-hzys')
-  const packManager = new VoicePackManager(ctx, config.downloadMirror)
+  const packManager = new VoicePackManager(ctx, config.downloadMirrorUrlList)
 
   // 启动时在后台静默预热默认语音包
   ctx.on('ready', async () => {

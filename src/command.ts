@@ -4,6 +4,16 @@ import { Config } from './config'
 import { VoicePackManager } from './pack'
 import { tokenizeSentence } from './tokenizer'
 
+function shouldQuoteAudio(config: Config, platform?: string): boolean {
+  const target = String(platform || '').trim().toLowerCase()
+  if (!target) return config.defaultAudioQuote
+
+  const matched = (config.audioQuotePlatformList || []).find(
+    item => String(item.platform || '').trim().toLowerCase() === target,
+  )
+  return matched ? matched.quote : config.defaultAudioQuote
+}
+
 export function registerCommands(ctx: Context, config: Config, packManager: VoicePackManager) {
   const logger = ctx.logger('otto-hzys')
   const primaryName = config.commandName || 'hzys'
@@ -36,7 +46,9 @@ export function registerCommands(ctx: Context, config: Config, packManager: Voic
   }
 
   // 子指令：查看本地已有的语音包名称与切片统计
-  const subCmd = cmd.subcommand('.packlist', '📦 查看本地所有已安装的活字印刷语音包')
+  const rawSubName = config.packListName?.trim() || '.packlist'
+  const subName = rawSubName.startsWith('.') ? rawSubName : `.${rawSubName}`
+  const subCmd = cmd.subcommand(subName, '📦 查看本地所有已安装的活字印刷语音包')
 
   const defaultSubAliases = ['.pack', '.packs', '.list']
   const subAliasSet = new Set<string>()
@@ -45,7 +57,7 @@ export function registerCommands(ctx: Context, config: Config, packManager: Voic
   }
   if (Array.isArray(config.packListAliases)) {
     for (const a of config.packListAliases) {
-      if (a && a !== '.packlist') subAliasSet.add(a)
+      if (a && a !== subName) subAliasSet.add(a)
     }
   }
 
@@ -162,8 +174,12 @@ export function registerCommands(ctx: Context, config: Config, packManager: Voic
         // 4. 打包为 WAV 格式二进制流
         const wavBuffer = encodeWav(combined, 44100)
 
-        // 5. 下发语音消息
-        return h.audio(wavBuffer, 'audio/wav')
+        // 5. 下发语音消息（按平台决定是否引用触发消息）
+        const audio = h.audio(wavBuffer, 'audio/wav')
+        if (!session.messageId || !shouldQuoteAudio(config, session.platform)) {
+          return audio
+        }
+        return [h.quote(session.messageId), audio]
       } catch (err) {
         logger.error(`Failed to synthesize otto speech: ${err}`)
         return `语音合成失败：${err instanceof Error ? err.message : String(err)}`
