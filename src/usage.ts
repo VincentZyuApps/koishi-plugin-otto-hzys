@@ -53,6 +53,7 @@ export const usage = `
 
 <ul>
   <li>🚀 <b>纯 TypeScript 架构</b>：无需部署外部 Python Flask，不依赖易失效的第三方 Web API，内存毫秒级合成。</li>
+  <li>🎧 <b>多格式 WAV 解码</b>：支持 8/16/24/32-bit PCM、32/64-bit float 与 WAVE_FORMAT_EXTENSIBLE。</li>
   <li>🎚️ <b>RMS 音量归一化</b>：内置均方根算法，自动平滑字与字之间的音量，告别“忽大忽小”。</li>
   <li>📻 <b>原声大碟贪婪匹配</b>：长词优先匹配经典短语（“大家好啊”、“我是说的道理”、“今天来点大家想看的东西”）。</li>
   <li>🔤 <b>中式英文与数字发音</b>：输入 <code>666 ABC</code> 自动转换拼读，流畅自然。</li>
