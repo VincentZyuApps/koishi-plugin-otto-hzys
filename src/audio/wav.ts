@@ -1,6 +1,6 @@
 /**
- * 纯 TypeScript 实现的极简 WAV 编解码与基础 DSP 处理
- * 零 native 依赖，纯内存快速处理
+ * WAV 解码、编码与基础 DSP 处理
+ * 无 native 依赖，纯内存快速处理
  */
 
 export interface DecodedAudio {
@@ -10,76 +10,41 @@ export interface DecodedAudio {
 }
 
 /**
- * 健壮的 WAV 解析器，遍历 RIFF Chunk，支持各种带元数据/填充的 WAV
+ * 基于 @audio/decode-wav 的解码封装：
+ * 支持 PCM 8/16/24/32-bit、IEEE float 32/64-bit 与 WAVE_FORMAT_EXTENSIBLE。
+ * 该依赖为 ESM-only，因此这里使用动态 import 并按需缓存模块。
  */
-export function decodeWav(buffer: Buffer): DecodedAudio {
-  if (buffer.length < 44 || buffer.toString('ascii', 0, 4) !== 'RIFF' || buffer.toString('ascii', 8, 12) !== 'WAVE') {
-    throw new Error('Invalid WAV file: missing RIFF/WAVE header')
+let wavDecoderPromise: Promise<typeof import('@audio/decode-wav')> | undefined
+
+async function loadWavDecoder() {
+  wavDecoderPromise ??= import('@audio/decode-wav')
+  return wavDecoderPromise
+}
+
+export async function decodeWav(buffer: Buffer): Promise<DecodedAudio> {
+  const { default: decode } = await loadWavDecoder()
+  // 传入真正的 Uint8Array 副本，避免 Buffer.slice() 返回视图导致非对齐采样读取失败
+  const { channelData, sampleRate } = decode(new Uint8Array(buffer))
+
+  if (channelData.length === 0) {
+    return { sampleRate, channels: 1, samples: new Float32Array(0) }
   }
 
-  let offset = 12
-  let sampleRate = 44100
-  let channels = 1
-  let bitsPerSample = 16
-  let audioFormat = 1
-  let dataOffset = -1
-  let dataSize = 0
+  const length = channelData[0].length
+  const samples = new Float32Array(length)
 
-  while (offset + 8 <= buffer.length) {
-    const chunkId = buffer.toString('ascii', offset, offset + 4)
-    const chunkSize = buffer.readUInt32LE(offset + 4)
-    offset += 8
-
-    if (chunkId === 'fmt ') {
-      audioFormat = buffer.readUInt16LE(offset)
-      channels = buffer.readUInt16LE(offset + 2)
-      sampleRate = buffer.readUInt32LE(offset + 4)
-      bitsPerSample = buffer.readUInt16LE(offset + 14)
-    } else if (chunkId === 'data') {
-      dataOffset = offset
-      dataSize = chunkSize
-      break
+  for (let i = 0; i < length; i++) {
+    let sum = 0
+    for (const channel of channelData) {
+      sum += channel[i] ?? 0
     }
-
-    offset += chunkSize
-  }
-
-  if (dataOffset === -1) {
-    throw new Error('Invalid WAV file: data chunk not found')
-  }
-
-  // 截断到缓冲区实际可用范围
-  const actualDataSize = Math.min(dataSize, buffer.length - dataOffset)
-  const bytesPerSample = bitsPerSample / 8
-  const totalSamples = Math.floor(actualDataSize / (bytesPerSample * channels))
-  const floatSamples = new Float32Array(totalSamples)
-
-  if (bitsPerSample === 16) {
-    for (let i = 0; i < totalSamples; i++) {
-      let sum = 0
-      for (let ch = 0; ch < channels; ch++) {
-        const sampleIdx = (i * channels + ch) * 2
-        sum += buffer.readInt16LE(dataOffset + sampleIdx) / 32768.0
-      }
-      floatSamples[i] = sum / channels // 多声道合并为单声道
-    }
-  } else if (bitsPerSample === 8) {
-    for (let i = 0; i < totalSamples; i++) {
-      let sum = 0
-      for (let ch = 0; ch < channels; ch++) {
-        const sampleIdx = i * channels + ch
-        sum += (buffer.readUInt8(dataOffset + sampleIdx) - 128) / 128.0
-      }
-      floatSamples[i] = sum / channels
-    }
-  } else {
-    throw new Error(`Unsupported WAV bitsPerSample: ${bitsPerSample}`)
+    samples[i] = sum / channelData.length
   }
 
   return {
     sampleRate,
     channels: 1,
-    samples: floatSamples,
+    samples,
   }
 }
 

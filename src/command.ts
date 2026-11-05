@@ -132,7 +132,7 @@ export function registerCommands(ctx: Context, config: Config, packManager: Voic
             continue
           }
 
-          const audio = packManager.getTokenAudio(packName, item.token, item.isYsdd)
+          const audio = await packManager.getTokenAudio(packName, item.token, item.isYsdd)
           if (audio && audio.samples.length > 0) {
             audioChunks.push(audio.samples)
             totalLength += audio.samples.length

@@ -135,7 +135,7 @@ export class VoicePackManager {
   /**
    * 获取指定 token 的音频数据 (优先内存缓存)
    */
-  public getTokenAudio(packName: string, token: string, isYsdd = false): DecodedAudio | null {
+  public async getTokenAudio(packName: string, token: string, isYsdd = false): Promise<DecodedAudio | null> {
     const cacheKey = `${packName}:${isYsdd ? 'ysdd:' : ''}${token}`
     if (this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey)!
@@ -158,7 +158,7 @@ export class VoicePackManager {
 
     try {
       const rawBuf = fs.readFileSync(filePath)
-      const decoded = decodeWav(rawBuf)
+      const decoded = await decodeWav(rawBuf)
       // 统一转换为 44100Hz 标准采样率
       if (decoded.sampleRate !== 44100) {
         decoded.samples = resample(decoded.samples, decoded.sampleRate, 44100)
