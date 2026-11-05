@@ -3,6 +3,7 @@ import path from 'node:path'
 import AdmZip from 'adm-zip'
 import { Context, Logger } from 'koishi'
 import { decodeWav, DecodedAudio, resample } from './audio/wav'
+import { DEFAULT_DOWNLOAD_MIRROR_URL_LIST } from './config'
 import { DEFAULT_YSDD } from './tokenizer'
 
 export interface VoicePackConfig {
@@ -14,12 +15,20 @@ export interface VoicePackConfig {
 export class VoicePackManager {
   private logger: Logger
   private cache = new Map<string, DecodedAudio>()
+  private mirrors: string[]
   public packsDir: string
 
-  constructor(private ctx: Context, private defaultMirror: string) {
+  constructor(private ctx: Context, mirrors: string[]) {
     this.logger = ctx.logger('otto-hzys')
     this.packsDir = path.resolve(ctx.baseDir, 'data', 'otto-hzys', 'packs')
     fs.mkdirSync(this.packsDir, { recursive: true })
+
+    const normalized = Array.from(new Set(
+      (Array.isArray(mirrors) ? mirrors : [])
+        .map(mirror => String(mirror || '').trim().replace(/\/+$/, ''))
+        .filter(Boolean),
+    ))
+    this.mirrors = normalized.length > 0 ? normalized : DEFAULT_DOWNLOAD_MIRROR_URL_LIST
   }
 
   /**
@@ -67,39 +76,60 @@ export class VoicePackManager {
   /**
    * 自动预热与准备语音包：
    * 1. 优先检测本地数据目录已就绪则跳过
-   * 2. 否则从配置的镜像地址（GitHub/Gitee 等）下载并解压
+   * 2. 否则按配置的镜像地址列表（Gitee/GitHub 等）逐个尝试下载并解压
    */
   public async ensurePack(packName = 'otto', onProgress?: (msg: string) => void): Promise<void> {
     if (this.hasPack(packName)) return
 
     const packDir = path.join(this.packsDir, packName)
-    fs.mkdirSync(packDir, { recursive: true })
+    const failures: string[] = []
 
-    // 在线自动下载解压
-    onProgress?.(`正在从镜像源下载 ${packName} 语音包，请稍候...`)
-    this.logger.info(`Downloading voice pack [${packName}] from mirror...`)
+    for (let index = 0; index < this.mirrors.length; index++) {
+      const mirror = this.mirrors[index]
+      const zipUrl = `${mirror}/${packName}.zip`
 
-    const zipUrl = `${this.defaultMirror.replace(/\/+$/, '')}/${packName}.zip`
-    const buffer = await this.ctx.http.get<ArrayBuffer>(zipUrl, {
-      responseType: 'arraybuffer',
-      timeout: 60000,
-    })
+      onProgress?.(`正在从镜像源（${index + 1}/${this.mirrors.length}）下载 ${packName} 语音包，请稍候...`)
+      this.logger.info(`Downloading voice pack [${packName}] from mirror (${index + 1}/${this.mirrors.length}): ${mirror}`)
 
-    onProgress?.(`下载完成，正在解压 ${packName} 语音资源...`)
-    const zip = new AdmZip(Buffer.from(buffer))
-    zip.extractAllTo(packDir, true)
+      try {
+        const buffer = await this.ctx.http.get<ArrayBuffer>(zipUrl, {
+          responseType: 'arraybuffer',
+          timeout: 60000,
+        })
 
-    // 若压缩包内包含一层与语音包同名的根目录，自动展平到 packDir
-    const nestedDir = path.join(packDir, packName)
-    if (fs.existsSync(nestedDir) && !fs.existsSync(path.join(packDir, 'sources')) && !fs.existsSync(path.join(packDir, 'tokens'))) {
-      const nestedFiles = fs.readdirSync(nestedDir)
-      for (const f of nestedFiles) {
-        fs.renameSync(path.join(nestedDir, f), path.join(packDir, f))
+        onProgress?.(`下载完成，正在解压 ${packName} 语音资源...`)
+        const zip = new AdmZip(Buffer.from(buffer))
+
+        // 每次尝试前清理上一次可能残留的半成品目录
+        try { fs.rmSync(packDir, { recursive: true, force: true }) } catch {}
+        fs.mkdirSync(packDir, { recursive: true })
+        zip.extractAllTo(packDir, true)
+
+        // 若压缩包内包含一层与语音包同名的根目录，自动展平到 packDir
+        const nestedDir = path.join(packDir, packName)
+        if (fs.existsSync(nestedDir) && !fs.existsSync(path.join(packDir, 'sources')) && !fs.existsSync(path.join(packDir, 'tokens'))) {
+          const nestedFiles = fs.readdirSync(nestedDir)
+          for (const f of nestedFiles) {
+            fs.renameSync(path.join(nestedDir, f), path.join(packDir, f))
+          }
+          try { fs.rmdirSync(nestedDir) } catch {}
+        }
+
+        if (!this.hasPack(packName)) {
+          throw new Error('压缩包内容不完整，缺少 tokens/sources 目录')
+        }
+
+        this.logger.info(`Voice pack [${packName}] installed successfully at ${packDir}`)
+        return
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err)
+        failures.push(`${mirror}: ${message}`)
+        this.logger.warn(`Failed to download voice pack [${packName}] from ${mirror}: ${message}`)
+        try { fs.rmSync(packDir, { recursive: true, force: true }) } catch {}
       }
-      try { fs.rmdirSync(nestedDir) } catch {}
     }
 
-    this.logger.info(`Voice pack [${packName}] installed successfully at ${packDir}`)
+    throw new Error(`所有镜像源均下载失败：${failures.join('；')}`)
   }
 
   /**

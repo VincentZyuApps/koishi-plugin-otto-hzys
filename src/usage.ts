@@ -56,7 +56,8 @@ export const usage = `
   <li>🎚️ <b>RMS 音量归一化</b>：内置均方根算法，自动平滑字与字之间的音量，告别“忽大忽小”。</li>
   <li>📻 <b>原声大碟贪婪匹配</b>：长词优先匹配经典短语（“大家好啊”、“我是说的道理”、“今天来点大家想看的东西”）。</li>
   <li>🔤 <b>中式英文与数字发音</b>：输入 <code>666 ABC</code> 自动转换拼读，流畅自然。</li>
-  <li>📦 <b>在线按需拉取</b>：支持从 GitHub / Gitee Releases 按需拉取语音包切片，保持 npm 包体极简。</li>
+  <li>📦 <b>在线按需拉取</b>：支持从 Gitee / GitHub Releases 镜像列表按顺序回退拉取语音包切片，保持 npm 包体极简。</li>
+  <li>💬 <b>按平台语音引用</b>：可配置默认是否引用触发消息，并可为 onebot、discord 等平台单独覆盖。</li>
 </ul>
 
 <h3>📌 常用指令与别名</h3>
@@ -64,7 +65,7 @@ export const usage = `
 <div style="${codeBlockStyle}">
   <div><b>主指令：</b><code>hzys &lt;content:text&gt;</code></div>
   <div style="margin-top: 4px;"><b>别名：</b><code>otto</code>、<code>ottohzys</code>、<code>otto-hzys</code>、<code>活字印刷</code>、<code>otto活字印刷</code>、<code>otto-活字印刷</code>、<code>欧头活字印刷</code>、<code>欧头-活字印刷</code></div>
-  <div style="margin-top: 4px;"><b>查看语音包：</b><code>hzys.packlist</code>（别名 <code>.pack</code>、<code>.packs</code>、<code>.list</code>）</div>
+  <div style="margin-top: 4px;"><b>查看语音包：</b><code>hzys.packlist</code>（别名 <code>.pack</code>、<code>.packs</code>、<code>.list</code>，子指令名可通过 <code>packListName</code> 自定义）</div>
 </div>
 
 <details style="${detailsStyle}">
