@@ -265,21 +265,24 @@ html.dark .card-pink, .theme-root.dark .card-pink, .dark .card-pink {
 <!-- ================= 折叠区域 3: 紫色卡片 - 原声大碟短语库 ================= -->
 <details class="k-usage-card card-purple" style="${baseDetailsStyle}">
 <summary style="${baseSummaryStyle}">
-  <span>📻 内置原声大碟精选短语（长词贪婪匹配）</span>
+  <span>📻 内置原声大碟完整清单（长词贪婪匹配）</span>
   <span class="k-fold-hint">
     <span class="k-fold-state"></span>
     <span class="k-arrow-icon">▼</span>
   </span>
 </summary>
 <div class="k-card-body" style="${baseBodyStyle}">
-  <p>插件内置了经典长短语优先匹配机制，当文本命中以下经典台词时，会自动调用原版连续采样音频，听感比单字拼接更加自然连贯：</p>
-  <ul style="margin: 6px 0; padding-left: 20px; line-height: 1.8;">
-    <li><code>大家好啊</code>、<code>我是说的道理</code>、<code>今天来点大家想看的东西</code></li>
-    <li><code>哇真的是你啊</code>、<code>你也网上冲浪啊</code>、<code>芜湖起飞</code></li>
-    <li><code>你们可能不知道只用二十万赢到五百七十八万是什么概念</code></li>
-    <li><code>哈比下</code>、<code>白银也是银</code>、<code>别急</code>、<code>直接拔电源</code></li>
+  <p>插件内置长短语贪婪匹配机制。当前默认 <code>otto</code> 语音包中实际收录并支持原声采样的短语<b>全量清单如下（共 6 组切片、9 句触发词）</b>：</p>
+  <ul style="margin: 6px 0; padding-left: 20px; line-height: 1.85;">
+    <li><code>大家好啊</code> <i>（采样：djha.wav）</i></li>
+    <li><code>我是说的道理</code> <i>（采样：wssddl.wav）</i></li>
+    <li><code>说的道理</code> <i>（采样：sddl.wav）</i></li>
+    <li><code>今天来点大家想看的东西</code>、<code>今天来点儿大家想看的东西</code> <i>（采样：jtlaidian.wav）</i></li>
+    <li><code>米浴说的道理</code>、<code>啊米浴说的道理</code> <i>（采样：miyu.wav）</i></li>
+    <li><code>波比是我爹</code>、<code>啊嘛波比是我爹</code> <i>（采样：bobi.wav）</i></li>
   </ul>
-  <p style="margin-top: 6px; font-size: 13px; color: var(--k-text-light, #909399);">💡 提示：若希望故意拆开成机械电音，可使用 <code>-Y</code> 参数或在字与字之间插入空格。</p>
+  <p style="margin: 6px 0; font-size: 13px; color: var(--k-text-light, #909399);">📌 <b>说明</b>：除上述 9 句经典短语拥有完整原声音频采样外，其余所有台词（如“别急”、“哈比下”等）均由单个字音拼音切片按顺序机械拼凑而成。</p>
+  <p style="margin-top: 4px; font-size: 13px; color: var(--k-text-light, #909399);">💡 <b>提示</b>：若希望将上述原声短语故意拆散为机械电音，可添加 <code>-Y</code> 参数或在字与字之间插入空格。</p>
 </div>
 </details>
 
