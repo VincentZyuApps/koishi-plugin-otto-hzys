@@ -17,8 +17,9 @@ function shouldQuoteAudio(config: Config, platform?: string): boolean {
 export function registerCommands(ctx: Context, config: Config, packManager: VoicePackManager) {
   const logger = ctx.logger('otto-hzys')
   const primaryName = config.commandName || 'hzys'
+  const captureQuote = config.captureQuotedMessage !== false
 
-  const cmd = ctx.command(`${primaryName} <content:text>`, '🎙️ 使用电棍/活字印刷语音合成句子')
+  const cmd = ctx.command(`${primaryName} <content:text>`, '🎙️ 使用电棍/活字印刷语音合成句子', { captureQuote })
 
   const aliasSet = new Set<string>()
   const defaultAliases = [
@@ -48,7 +49,7 @@ export function registerCommands(ctx: Context, config: Config, packManager: Voic
   // 子指令：查看本地已有的语音包名称与切片统计
   const rawSubName = config.packListName?.trim() || '.packlist'
   const subName = rawSubName.startsWith('.') ? rawSubName : `.${rawSubName}`
-  const subCmd = cmd.subcommand(subName, '📦 查看本地所有已安装的活字印刷语音包')
+  const subCmd = cmd.subcommand(subName, '📦 查看本地所有已安装的活字印刷语音包', { captureQuote })
 
   const defaultSubAliases = ['.pack', '.packs', '.list']
   const subAliasSet = new Set<string>()

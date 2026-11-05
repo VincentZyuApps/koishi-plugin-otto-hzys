@@ -105,6 +105,7 @@ python3 scripts/download_pack.py --proxy http://127.0.0.1:7890 --force
 | :--- | :--- | :--- | :--- |
 | `defaultPack` | `string` | `otto` | 默认加载的语音包名称 |
 | `autoDownload` | `boolean` | `true` | 插件启动时是否在后台自动检测并下载默认语音包 |
+| `captureQuotedMessage` | `boolean` | `true` | 是否把被引用消息的文本内容自动作为合成输入 |
 | `useDownloadProxy` | `boolean` | `false` | 下载语音包时是否使用 HTTP/SOCKS 代理 |
 | `downloadProxyUrl` | `string` | `http://127.0.0.1:7890` | 下载语音包使用的代理服务器地址 |
 | `packListName` | `string` | `.packlist` | 语音包列表子指令名称，可自定义 |
