@@ -24,6 +24,8 @@
 
 **纯 TypeScript 实现的开箱即用 Otto 活字印刷语音合成插件**，无需部署任何外部 Python Flask 后端，无需依赖易失效的第三方云函数。
 
+> 🙏 **上游致谢**：本插件的语音包与实现灵感来自 [@lgc-NB2Dev](https://github.com/lgc-NB2Dev) 的开源项目 [nonebot-plugin-ottohzys](https://github.com/lgc-NB2Dev/nonebot-plugin-ottohzys)，感谢上游作者提供的基础与灵感！
+
 ## ✨ 特性
 
 - 🚀 **纯 TypeScript 纯净架构**：内置轻量纯 JS/TS WAV 编解码与重采样引擎，完全在 Node.js 内存中毫秒级完成音频切片拼接。
