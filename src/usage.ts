@@ -320,7 +320,7 @@ html.dark .card-pink, .theme-root.dark .card-pink, .dark .card-pink {
     <li><b>OneBot / Red 平台</b>：自动支持通过语音消息发送，并支持 quote 引用。</li>
     <li><b>QQ 官方 Bot 平台</b>：支持公网 URL 转换或本地语音格式上传。</li>
     <li><b>Telegram / Discord / KOOK</b>：自动转为平台原生语音条展示。</li>
-    <li><b>个性化引用</b>：可在配置项 <code>platformQuoteOverrides</code> 中按平台自定义开启/关闭引用。</li>
+    <li><b>个性化引用</b>：可在配置项 <code>audioQuotePlatformList</code> 中按平台自定义开启/关闭引用。</li>
   </ul>
 </div>
 </details>
