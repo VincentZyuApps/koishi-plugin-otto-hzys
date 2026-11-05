@@ -30,8 +30,9 @@
 
 - 🚀 **纯 TypeScript 纯净架构**：内置轻量纯 JS/TS WAV 编解码与重采样引擎，完全在 Node.js 内存中毫秒级完成音频切片拼接。
 - 🎧 **多格式 WAV 解码**：支持 8/16/24/32-bit PCM、32/64-bit float 与 WAVE_FORMAT_EXTENSIBLE，兼容不同来源的语音切片。
-- 📦 **开箱即用 / 远程按需拉取**：
-  - 自动从 GitHub/Gitee Releases 按需拉取语音包切片并解压，避免臃肿的 npm 包体积。
+- 📦 **开箱即用 / 远程按需拉取与离线预热**：
+  - 自动从国内加速镜像 / GitHub Releases 按需拉取语音包切片并解压，避免臃肿的 npm 包体积。
+  - 支持配置 HTTP/SOCKS 代理（`downloadProxyUrl`），且仓库自带免外部依赖的 `scripts/download_pack.py` 离线预热脚本。
 - 🎚️ **RMS 音量归一化**：内置均方根能量平滑算法，统一单个字词的发音音量，告别“忽大忽小”。
 - 📻 **原声大碟 (YSDD) 贪婪匹配**：长句优先智能匹配经典名场面原声（如“大家好啊”、“我是说的道理”、“今天来点大家想看的东西”）。
 - 🔤 **中式英语/数字拼读**：输入字母数字（如 `666 ABC`）自动转为地道中式发音切片。
@@ -83,14 +84,31 @@
 /otto -Y 大家好啊
 ```
 
+### 📥 离线预热脚本（可选）
+
+若服务器网络受限或希望在 Koishi 启动前预先下载资源包，可直接运行仓库内自带的零依赖 Python 3 脚本：
+
+```bash
+# 默认直连下载（不走代理）
+python3 scripts/download_pack.py
+
+# 走本地代理下载（默认/常用代理为 http://127.0.0.1:7890）
+python3 scripts/download_pack.py --proxy http://127.0.0.1:7890
+
+# 强制重新下载并覆盖
+python3 scripts/download_pack.py --proxy http://127.0.0.1:7890 --force
+```
+
 ## ⚙️ 插件配置项
 
 | 配置项 | 类型 | 默认值 | 说明 |
 | :--- | :--- | :--- | :--- |
 | `defaultPack` | `string` | `otto` | 默认加载的语音包名称 |
 | `autoDownload` | `boolean` | `true` | 插件启动时是否在后台自动检测并下载默认语音包 |
+| `useDownloadProxy` | `boolean` | `false` | 下载语音包时是否使用 HTTP/SOCKS 代理 |
+| `downloadProxyUrl` | `string` | `http://127.0.0.1:7890` | 下载语音包使用的代理服务器地址 |
 | `packListName` | `string` | `.packlist` | 语音包列表子指令名称，可自定义 |
-| `downloadMirrorUrlList` | `string[]` | Gitee 和 GitHub Releases 地址 | 远程语音包下载镜像基础地址列表，按顺序逐个尝试 |
+| `downloadMirrorUrlList` | `string[]` | 高速加速镜像与 GitHub Releases 地址 | 远程语音包下载镜像基础地址列表，按顺序逐个尝试 |
 | `defaultAudioQuote` | `boolean` | `true` | 默认发送语音时是否引用触发指令的消息 |
 | `audioQuotePlatformList` | `{ platform, quote }[]` | `onebot: false`、`qq: false`、`telegram: true`、`kook: true`、`lark: true`、`discord: true` | 按平台覆盖语音引用行为，未匹配的平台使用默认值 |
 | `defaultNorm` | `boolean` | `true` | 默认是否开启音量归一化 |

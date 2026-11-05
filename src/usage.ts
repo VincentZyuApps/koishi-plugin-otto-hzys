@@ -147,6 +147,15 @@ html.dark .card-pink, .theme-root.dark .card-pink, .dark .card-pink {
   --card-hint-color: #feb2b2;
 }
 
+/* 显眼通知框黑夜模式适配 */
+html.dark .k-notice-box, .theme-root.dark .k-notice-box, .dark .k-notice-box {
+  background: rgba(49, 130, 206, 0.16) !important;
+  border-left-color: #63b3ed !important;
+}
+html.dark .k-notice-box .k-notice-title, .theme-root.dark .k-notice-box .k-notice-title, .dark .k-notice-box .k-notice-title {
+  color: #63b3ed !important;
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not(.light) .card-green { --card-title-color: #68d391; --card-summary-bg: rgba(72,187,120,0.18); }
   :root:not(.light) .card-orange { --card-title-color: #f6ad55; --card-summary-bg: rgba(237,137,54,0.18); }
@@ -154,6 +163,8 @@ html.dark .card-pink, .theme-root.dark .card-pink, .dark .card-pink {
   :root:not(.light) .card-blue { --card-title-color: #63b3ed; --card-summary-bg: rgba(66,153,225,0.18); }
   :root:not(.light) .card-cyan { --card-title-color: #4fd1c5; --card-summary-bg: rgba(78,205,196,0.18); }
   :root:not(.light) .card-pink { --card-title-color: #fc8181; --card-summary-bg: rgba(245,101,101,0.18); }
+  :root:not(.light) .k-notice-box { background: rgba(49, 130, 206, 0.16) !important; border-left-color: #63b3ed !important; }
+  :root:not(.light) .k-notice-box .k-notice-title { color: #63b3ed !important; }
 }
 </style>
 
@@ -195,6 +206,23 @@ html.dark .card-pink, .theme-root.dark .card-pink, .dark .card-pink {
   </a>
 </p>
 
+<!-- 显眼的受限网络 / 下载故障排除提示框 -->
+<div class="k-notice-box" style="margin: 16px 0; padding: 12px 16px; border-radius: 8px; border-left: 5px solid #3182ce; background: rgba(49, 130, 206, 0.08); box-shadow: var(--k-card-shadow, 0 1px 3px rgba(0,0,0,0.1)); line-height: 1.8;">
+  <div class="k-notice-title" style="font-weight: 700; font-size: 15px; color: #2b6cb0; display: flex; align-items: center; gap: 6px;">
+    <span>⚡ 网络受限环境 / 语音包下载遇阻提示</span>
+  </div>
+  <p style="margin: 6px 0 4px; font-size: 14px;">
+    若服务器处于国内或受限网络，插件启动时自动下载语音包报 <code>❌ 下载语音包 [otto] 失败</code>，推荐采用以下两种方案任选其一：
+  </p>
+  <ul style="margin: 4px 0 0 20px; padding: 0; font-size: 13.5px;">
+    <li><b>方案 A（插件内置代理）</b>：在下方插件配置中开启 <code>useDownloadProxy</code>，并填写代理地址（例如 <code>http://127.0.0.1:7890</code>），保存后重载即可通过代理拉取。</li>
+    <li><b>方案 B（Python 离线预热脚本）</b>：在服务器终端中直接运行插件自带的免外部依赖脚本：<br>
+      <code style="${codeBlockStyle}; display: inline-block; margin: 4px 0; padding: 4px 10px;">python3 scripts/download_pack.py --proxy http://127.0.0.1:7890</code><br>
+      脚本将自动通过代理拉取并解压至 <code>data/otto-hzys/packs/otto</code>，解压完成后重启 Koishi 即可秒就绪！
+    </li>
+  </ul>
+</div>
+
 <hr>
 
 <h2>✨ 核心特色</h2>
@@ -205,7 +233,7 @@ html.dark .card-pink, .theme-root.dark .card-pink, .dark .card-pink {
   <li>🎚️ <b>RMS 均方根音量归一化</b>：内置声学平滑算法，自动平衡字与字之间的音量，告别“忽大忽小”。</li>
   <li>📻 <b>原声大碟贪婪匹配</b>：长词优先匹配经典短语（“大家好啊”、“我是说的道理”、“今天来点大家想看的东西”）。</li>
   <li>🔤 <b>中式英文与数字发音</b>：输入 <code>666 ABC</code> 自动转换拼读，自然连贯。</li>
-  <li>📦 <b>在线按需拉取</b>：支持从 Gitee / GitHub Releases 镜像列表按顺序回退拉取切片包，保持 npm 包体极简。</li>
+  <li>📦 <b>在线按需拉取与离线预热</b>：支持国内加速镜像与 GitHub Releases 回退拉取，并支持代理与纯 Python 离线预热脚本，保持 npm 包体极简。</li>
   <li>💬 <b>细粒度语音引用</b>：支持配置默认是否引用触发消息，并可为各平台单独覆盖。</li>
 </ul>
 
@@ -289,7 +317,7 @@ html.dark .card-pink, .theme-root.dark .card-pink, .dark .card-pink {
 <!-- ================= 折叠区域 4: 蓝色卡片 - 离线包与镜像拉取 ================= -->
 <details class="k-usage-card card-blue" style="${baseDetailsStyle}">
 <summary style="${baseSummaryStyle}">
-  <span>📦 语音包离线下载与镜像源配置</span>
+  <span>📦 语音包离线下载与镜像源/代理配置</span>
   <span class="k-fold-hint">
     <span class="k-fold-state"></span>
     <span class="k-arrow-icon">▼</span>
@@ -298,9 +326,11 @@ html.dark .card-pink, .theme-root.dark .card-pink, .dark .card-pink {
 <div class="k-card-body" style="${baseBodyStyle}">
   <p>为保证 npm 发布包轻量，插件首次启动若本地未解压切片，会自动根据配置从高可用镜像源拉取：</p>
   <ul style="margin: 6px 0; padding-left: 20px; line-height: 1.8;">
-    <li><b>首选镜像源</b>：Gitee Releases（国内网络极速直连，免代理，秒级下载）</li>
-    <li><b>备用镜像源</b>：GitHub Releases（海外节点备用回退）</li>
-    <li><b>本地解压目录</b>：音频切片将自动解压并缓存在 <code>data/otto-hzys/packs/otto</code> 中，无需重复下载。</li>
+    <li><b>国内高速加速源</b>：<code>gh-proxy.com</code> / <code>ghproxy.net</code>（大陆服务器免翻墙高速直连）</li>
+    <li><b>官方备用镜像源</b>：GitHub Releases（海外节点备用回退）</li>
+    <li><b>本地代理支持</b>：若服务器处于受限内网，可开启 <code>useDownloadProxy</code> 并指定 <code>downloadProxyUrl</code>（默认 <code>http://127.0.0.1:7890</code>）。</li>
+    <li><b>Python 离线预热脚本</b>：仓库自带免依赖脚本 <code>scripts/download_pack.py</code>，支持直接执行 <code>python3 scripts/download_pack.py --proxy http://127.0.0.1:7890</code> 预先拉取。</li>
+    <li><b>本地解压目录</b>：音频切片将自动解压并缓存在 <code>data/otto-hzys/packs/otto</code> 中，就绪后无需重复下载。</li>
   </ul>
 </div>
 </details>

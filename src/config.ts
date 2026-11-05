@@ -1,8 +1,10 @@
 import { Schema } from 'koishi'
 
 export const DEFAULT_DOWNLOAD_MIRROR_URL_LIST = [
-  'https://gitee.com/vincent-zyu/koishi-plugin-otto-hzys/releases/download/v0.1.0',
+  'https://gh-proxy.com/https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0',
+  'https://ghproxy.net/https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0',
   'https://github.com/VincentZyuApps/koishi-plugin-otto-hzys/releases/download/v0.1.0',
+  'https://gitee.com/vincent-zyu/koishi-plugin-otto-hzys/releases/download/v0.1.0',
 ]
 
 export interface AudioQuotePlatformConfig {
@@ -20,6 +22,8 @@ export interface Config {
   // ===== 📦 语音包与下载设置 =====
   defaultPack: string // 🎙️ 默认使用的语音包名称（默认 otto）
   autoDownload: boolean // 🚀 启动时若缺失是否自动静默下载
+  useDownloadProxy: boolean // 🌐 下载语音包时是否使用代理
+  downloadProxyUrl: string // 🔌 下载语音包使用的代理服务器地址（默认 http://127.0.0.1:7890）
   downloadMirrorUrlList: string[] // 🌐 在线语音包下载镜像基础地址列表
 
   // ===== 💬 语音发送与引用设置 =====
@@ -60,6 +64,12 @@ export const Config: Schema<Config> = Schema.intersect([
     autoDownload: Schema.boolean()
       .default(true)
       .description('🚀 插件启动时，若本地缺失默认语音包是否在后台自动静默下载'),
+    useDownloadProxy: Schema.boolean()
+      .default(false)
+      .description('🌐 下载语音包时是否使用 HTTP/SOCKS 代理'),
+    downloadProxyUrl: Schema.string()
+      .default('http://127.0.0.1:7890')
+      .description('🔌 下载语音包时使用的代理服务器地址（例如 http://127.0.0.1:7890）'),
     downloadMirrorUrlList: Schema.array(Schema.string())
       .role('table')
       .min(1)

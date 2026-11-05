@@ -18,7 +18,12 @@ export class VoicePackManager {
   private mirrors: string[]
   public packsDir: string
 
-  constructor(private ctx: Context, mirrors: string[]) {
+  constructor(
+    private ctx: Context,
+    mirrors: string[],
+    private useProxy: boolean = false,
+    private proxyUrl: string = 'http://127.0.0.1:7890',
+  ) {
     this.logger = ctx.logger('otto-hzys')
     this.packsDir = path.resolve(ctx.baseDir, 'data', 'otto-hzys', 'packs')
     fs.mkdirSync(this.packsDir, { recursive: true })
@@ -92,10 +97,17 @@ export class VoicePackManager {
       this.logger.info(`Downloading voice pack [${packName}] from mirror (${index + 1}/${this.mirrors.length}): ${mirror}`)
 
       try {
-        const buffer = await this.ctx.http.get<ArrayBuffer>(zipUrl, {
+        const httpOptions: Record<string, any> = {
           responseType: 'arraybuffer',
           timeout: 60000,
-        })
+        }
+        if (this.useProxy && this.proxyUrl?.trim()) {
+          const proxy = this.proxyUrl.trim()
+          httpOptions.proxy = proxy
+          httpOptions.proxyAgent = proxy
+        }
+
+        const buffer = await this.ctx.http.get<ArrayBuffer>(zipUrl, httpOptions)
 
         onProgress?.(`下载完成，正在解压 ${packName} 语音资源...`)
         const zip = new AdmZip(Buffer.from(buffer))
